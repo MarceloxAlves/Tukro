@@ -1,29 +1,61 @@
 {% load staticfiles %}
 <!doctype html>
-<html lang = "pt-br">
-	<head>
-		<meta charset="utf-8">
-		<title>ConnectedIn</title>
-		<link rel="stylesheet" 
-			 href="{% static 'styles/bootstrap.css' %}">
-		<link rel="stylesheet" 
-			 href="{% static 'styles/main.css' %}">
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>TUKRO</title>
+    <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/fontawesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
 
-	</head>
-	<body>
-		<div class="container">
-			<div class = "header">
-				<ul class = "nav nav-pills pull-right">
-					<li><a href = "{% url 'index' %}">{{ perfil_logado.nome }}</a></li>
-					<li><a href = "/logout/">Logout</a></li>
-				</ul>
-				<h3 class = "text-muted">ConnectedIn</h3>
-			</div>
-			
-			<div class="row content">
-				{% block body%}
-				{% endblock %}				
-			</div>		
-		</div>	
-	</body>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Tukro</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            {% if user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-nav-tukro navbar-right">
+                    <li><a href="#"><i class="fa fa-bell"></i></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">{{ user.perfil.nome }} <span class="fa fa-caret-down"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user"></i> Perfil</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="header">
+        <ul class="nav nav-pills pull-right">
+            <li><a href="{% url 'index' %}">{{ perfil_logado.nome }}</a></li>
+            <li><a href="/logout/">Logout</a></li>
+        </ul>
+        <h3 class="text-muted">ConnectedIn</h3>
+    </div>
+
+    <div class="row content">
+        {% block body %}
+        {% endblock %}
+    </div>
+</div>
+<script src="{% static 'scripts/vendor/jquery-1.9.1.js' %}"></script>
+<script src="{% static 'scripts/vendor/bootstrap-min.js' %}"></script>
+</body>
 </html>
