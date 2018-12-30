@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from perfis import views
-from usuarios.views import RegistrarUsuarioView
+from usuarios.views import RegistrarUsuarioView, LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,7 +24,9 @@ urlpatterns = [
     path('perfil/<int:perfil_id>', views.exibir_perfil, name='exibir'),
     path('perfil/<int:perfil_id>/convidar',views.convidar, name='convidar'),
     path('convite/<int:convite_id>/aceitar',views.aceitar, name='aceitar'),
-    path('registrar/', RegistrarUsuarioView.as_view(), name="registrar")
+    path('registrar/', RegistrarUsuarioView.as_view(), name="registrar"),
+    path('login/', LoginView.as_view(template_name = 'login.html'), name="login"),
+    path('logout/', LogoutView.as_view(template_name = 'login.html'), name="logout")
 ]
 
 
