@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body %}
+    <link rel="stylesheet" href="{% static 'styles/signin.css' %}">
+    <div class="container" style="margin-bottom: 20px;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="jumbotron">
+                    <h1><logo>Tukro!</logo></h1>
+                    <p>A rede social mais completa está aqui!</p>
+                    <p>Conecte seus amigos e divirta-se!</p>
+                    <p><a class="btn btn-register" href="#" role="button">Criar Conta</a></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
