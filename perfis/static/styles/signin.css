@@ -63,12 +63,12 @@ body {
     -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+    background: #EEEEEE;
 }
 
 .panel-login > .panel-heading {
     color: #00415d;
-    background-color: #fff;
-    border-color: #fff;
+    background-color: #EEEEEE;
     text-align: center;
 }
 
