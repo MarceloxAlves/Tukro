@@ -30,3 +30,14 @@ class Convite(models.Model):
         self.solicitante.contatos.add(self.convidado)
         self.convidado.contatos.add(self.solicitante)
         self.delete()
+
+class Postagem(models.Model):
+    texto = models.TextField()
+    data = models.DateTimeField(auto_now=True)
+    perfil = models.ForeignKey(Perfil, related_name='timeline', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['-data']
+
+    def __str__(self):
+        return self.texto
