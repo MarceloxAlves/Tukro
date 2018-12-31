@@ -9,16 +9,12 @@ from django.views.generic.base import View, TemplateView
 
 class HomeView(View):
     template_name = 'index.html'
-    contexto =  None
-
-    def __init__(self):
-        self.contexto = {
-            'perfis': self.get_perfis(),
-            'postagens': self.get_postagens(),
-        }
-
     def get(self, request):
-        return render(request, self.template_name,self.contexto)
+        contexto = {
+            'perfis': self.get_perfis(),
+            'postagens': self.get_postagens(request),
+        }
+        return render(request, self.template_name,contexto)
 
     def post(self, request):
         texto = request.POST["texto"];
@@ -26,7 +22,11 @@ class HomeView(View):
         print(usuario)
         postagem = Postagem(texto=texto, perfil=usuario.perfil)
         postagem.save()
-        return render(request, self.template_name, self.contexto)
+        contexto = {
+            'perfis': self.get_perfis(),
+            'postagens': self.get_postagens(request),
+        }
+        return render(request, self.template_name, contexto)
 
     def get_perfis(self):
         return Perfil.objects.all();
