@@ -1,1 +1,3 @@
 djangorestframework
+channels
+pypiwin32

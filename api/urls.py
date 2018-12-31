@@ -1,6 +1,9 @@
 from rest_framework import routers
+from django.urls import path
 from .views import PostagemViewSet
 
 router = routers.SimpleRouter()
-router.register(r'postagens', PostagemViewSet)
-urlpatterns = router.urls
+urlpatterns = [
+    path('postagens/', PostagemViewSet.as_view({'get': 'list'}), name="login"),
+]
+urlpatterns += router.urls
