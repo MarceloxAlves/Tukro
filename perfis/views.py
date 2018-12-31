@@ -1,20 +1,38 @@
 from django.shortcuts import render
-from perfis.models import Perfil, Convite
+from perfis.models import Perfil, Convite, Postagem
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View, TemplateView
-
 
 
 # Create your views here.
 
 class HomeView(View):
     template_name = 'index.html'
+    contexto =  None
+
+    def __init__(self):
+        self.contexto = {
+            'perfis': self.get_perfis(),
+            'postagens': self.get_postagens(),
+        }
+
     def get(self, request):
-        return render(request, self.template_name, {'perfis': Perfil.objects.all()})
+        return render(request, self.template_name,self.contexto)
 
     def post(self, request):
-        return redirect('index')
+        texto = request.POST["texto"];
+        usuario = request.user
+        print(usuario)
+        postagem = Postagem(texto=texto, perfil=usuario.perfil)
+        postagem.save()
+        return render(request, self.template_name, self.contexto)
+
+    def get_perfis(self):
+        return Perfil.objects.all();
+
+    def get_postagens(self, request):
+        return Postagem.objects.filter(perfil=request.user.perfil);
 
 
 @login_required

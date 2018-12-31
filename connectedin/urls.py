@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from perfis import views
 from usuarios.views import RegistrarUsuarioView, LoginView, LogoutView
+from django.contrib.auth.decorators import login_required
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.HomeView.as_view(),name='index'),
+    path('', login_required(views.HomeView.as_view()),name='index'),
     path('perfil/<int:perfil_id>', views.exibir_perfil, name='exibir'),
     path('perfil/<int:perfil_id>/convidar',views.convidar, name='convidar'),
     path('perfil/<int:perfil_id>/desfazer',views.desfazer_amizade, name='desfazer'),

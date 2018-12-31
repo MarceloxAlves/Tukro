@@ -96,6 +96,15 @@ logo {
     outline: #9C4A4F;
 }
 
+.perfil-home{
+    display: table-row;
+}
+
+.sidebar-left{
+}
+
+.sidebar-right{
+}
 
 footer {
     position: fixed;
