@@ -31,6 +31,16 @@ def convidar(request, perfil_id):
 
 
 @login_required
+def desfazer_amizade(request, perfil_id):
+    perfil_a_desfazer = Perfil.objects.get(id=perfil_id)
+    perfil_logado = get_perfil_logado(request).perfil
+
+    perfil_logado.desfazer_amizade(perfil_a_desfazer)
+
+    return redirect('index')
+
+
+@login_required
 def get_perfil_logado(request):
     return request.user
 

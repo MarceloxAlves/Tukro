@@ -24,6 +24,13 @@ class Perfil(models.Model):
     def pode_convidar(self, perfil_convidado):
         return True if not perfil_convidado in self.contatos.all() else False
 
+    def desfazer_amizade(self, perfil_amigo):
+        self.contatos.remove(perfil_amigo)
+        perfil_amigo.contatos.remove(self)
+        self.save()
+        perfil_amigo.save()
+
+
 
 class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )

@@ -44,7 +44,7 @@
                             <a href = "{% url 'exibir' perfil.id %}">
                                 {{ perfil }}
                             </a>
-                            <a class="pull-right" href="#">
+                            <a class="pull-right" href="{% url 'desfazer' perfil.id %}">
                                 desfazer amizade
                             </a>
                         </li>

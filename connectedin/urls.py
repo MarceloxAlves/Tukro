@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.index,name='index'),
     path('perfil/<int:perfil_id>', views.exibir_perfil, name='exibir'),
     path('perfil/<int:perfil_id>/convidar',views.convidar, name='convidar'),
+    path('perfil/<int:perfil_id>/desfazer',views.desfazer_amizade, name='desfazer'),
     path('convite/<int:convite_id>/aceitar',views.aceitar, name='aceitar'),
     path('convite/<int:convite_id>/recusar',views.recusar, name='recusar'),
     path('registrar/', RegistrarUsuarioView.as_view(), name="registrar"),
