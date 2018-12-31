@@ -2,13 +2,19 @@ from django.shortcuts import render
 from perfis.models import Perfil, Convite
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.views.generic.base import View, TemplateView
+
 
 
 # Create your views here.
 
-@login_required
-def index(request):
-    return render(request, 'index.html', {'perfis': Perfil.objects.all()})
+class HomeView(View):
+    template_name = 'index.html'
+    def get(self, request):
+        return render(request, self.template_name, {'perfis': Perfil.objects.all()})
+
+    def post(self, request):
+        return redirect('index')
 
 
 @login_required
@@ -46,4 +52,4 @@ def aceitar(request, convite_id):
 def recusar(request, convite_id):
     convite = Convite.objects.get(id=convite_id)
     convite.recusar()
-    return redirect('index')
+    return redirect('index');
