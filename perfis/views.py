@@ -40,3 +40,10 @@ def aceitar(request, convite_id):
     convite = Convite.objects.get(id=convite_id)
     convite.aceitar()
     return redirect('index')
+
+
+@login_required
+def recusar(request, convite_id):
+    convite = Convite.objects.get(id=convite_id)
+    convite.recusar()
+    return redirect('index')

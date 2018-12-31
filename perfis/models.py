@@ -34,6 +34,9 @@ class Convite(models.Model):
         self.convidado.contatos.add(self.solicitante)
         self.delete()
 
+    def recusar(self):
+        self.delete()
+
 class Postagem(models.Model):
     texto = models.TextField()
     data = models.DateTimeField(auto_now=True)
