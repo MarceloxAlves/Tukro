@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def index(request):
-    return render(request, 'index.html', {'perfis': Perfil.objects.all(), 'perfil_logado': get_perfil_logado(request)})
+    return render(request, 'index.html', {'perfis': Perfil.objects.all()})
 
 
 @login_required
@@ -32,7 +32,7 @@ def convidar(request, perfil_id):
 
 @login_required
 def get_perfil_logado(request):
-    return request.user.perfil
+    return request.user
 
 
 @login_required
