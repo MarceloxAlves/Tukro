@@ -7,7 +7,7 @@
 
 /* Space out content a bit */
 body {
-    padding-top: 100px;
+    padding-top: 90px;
     padding-bottom: 20px;
     background-color: rgba(16, 18, 7, 0.06);
 }
@@ -90,6 +90,12 @@ logo {
 .container-fluid {
     margin: 0px 10% 0px 10%;
 }
+
+.input-postagem{
+    resize: none;
+    outline: #9C4A4F;
+}
+
 
 footer {
     position: fixed;
