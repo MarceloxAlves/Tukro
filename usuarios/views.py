@@ -14,6 +14,7 @@ class RegistrarUsuarioView(View):
 
     def post(self, request):
         form = RegistrarUsuarioForm(request.POST)
+        print(form)
         if form.is_valid():
             dados_form = form.cleaned_data
             usuario = User.objects.create_user(username=dados_form['email'],
