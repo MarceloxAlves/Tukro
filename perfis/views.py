@@ -22,7 +22,7 @@ def exibir_perfil(request, perfil_id):
 @login_required
 def convidar(request, perfil_id):
     perfil_a_convidar = Perfil.objects.get(id=perfil_id)
-    perfil_logado = get_perfil_logado(request)
+    perfil_logado = get_perfil_logado(request).perfil
 
     if (perfil_logado.pode_convidar(perfil_a_convidar)):
         perfil_logado.convidar(perfil_a_convidar)
