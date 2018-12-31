@@ -20,7 +20,7 @@
 	</div>	
 
     <div class="panel panel-default">
-        {% with total=perfil_logado.contatos.count %}
+        {% with total=user.perfil.contatos.count %}
             {% if total %}
                 <div class="panel-heading">
                     <strong> {{ total }}  
@@ -28,12 +28,12 @@
                     </strong>
                 </div>
                 <ul class="list-group">
-                    {% for perfil in perfil_logado.contatos.all %}
+                    {% for perfil in user.perfil.contatos.all %}
                         <li class = "list-group-item">
                             <a href = "{% url 'exibir' perfil.id %}">
                                 {{ perfil }}
                             </a>
-                            <a class="pull-right" href="{% url 'desfazer' perfil.id %}">
+                            <a class="pull-right" href="#">
                                 desfazer amizade
                             </a>
                         </li>
@@ -65,7 +65,7 @@
                                     </a>
                                 </li>
                                 <li class = "list-inline-item pull-right">
-                                    <a href = "#">recusar</a>
+                                    <a href = "{% url 'recusar' convite.id %}">recusar</a>
                                 </li>
                                 <li class = "list-inline-item pull-right">
                                     <a href = "{% url 'aceitar' convite.id %}">aceitar</a>
