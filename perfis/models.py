@@ -21,10 +21,6 @@ class Perfil(models.Model):
             convite = Convite(solicitante=self,convidado = perfil_convidado)
             convite.save()
 
-    def pode_convidar(self, perfil_convidado):
-        return True if not perfil_convidado in self.contatos.all() else False
-
-
 
 class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )
