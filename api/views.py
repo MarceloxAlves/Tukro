@@ -1,7 +1,8 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from perfis.models import Postagem
 from .serializer import PostagemSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 
 
@@ -25,10 +26,14 @@ class PostagemViewSet(viewsets.ViewSet):
         pass
 
     def destroy(self, request, pk=None):
-        pass
+        postagem =  Postagem.objects.get(id=pk)
+        postagem.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
-
+    def get_authenticators(self):
+        authentication_classes = [SessionAuthentication]
+        return [auth() for auth in authentication_classes]

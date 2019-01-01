@@ -7,10 +7,13 @@
             <div class="panel panel-default">
 
                 <div class="panel-body">
-                   <div class="row perfil-home">
-                       <div class="col-md-4 "><img src="{% static 'img/photo.jpg' %}"  class="img-circle" width="80"></div>
-                       <div class="col-md-8 text-center" style="padding-top: 5%;"><logo>{{ user.perfil.nome }}</logo></div>
-                   </div>
+                    <div class="row perfil-home">
+                        <div class="col-md-4 "><img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                        </div>
+                        <div class="col-md-8 text-center" style="padding-top: 5%;">
+                            <logo>{{ user.perfil.nome }}</logo>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -33,9 +36,30 @@
             </form>
             {% if postagens %}
                 {% for postagem in postagens %}
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="postagem{{ postagem.id }}">
                         <div class="panel-heading">
-                            <h3 class="panel-title">{{ postagem.perfil.nome }}</h3>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <img style="float: left" src="{% static 'img/photo.jpg' %}" class="img-circle"
+                                         width="30">
+                                    <span style="display:inline-block; padding-top:1%;">&nbsp;{{ postagem.perfil.nome }}</span>
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    <span class="dropdown">
+                                    <a href="#" class="btn btn-link dropdown-toggle option" data-toggle="dropdown"
+                                       role="button"
+                                       aria-haspopup="true"
+                                       aria-expanded="false"><span
+                                            class="fa fa-ellipsis-v"></span></a>
+                                    <ul class="dropdown-menu text-left">
+                                        <li><a  style="cursor: pointer" class="action"
+                                               param="{{ postagem.id }}"
+                                               data-msg="Deseja deletar a postagem '{{ postagem.texto }}' ?"
+                                               positive="DeletePostagem"><i class="fa fa-trash"></i> Deletar</a></li>
+                                    </ul>
+                                </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             {{ postagem.texto }}
@@ -138,4 +162,5 @@
             {% endwith %}
         </div>
     </div>
+    <script src="{% static 'scripts/home.js' %}"></script>
 {% endblock %}

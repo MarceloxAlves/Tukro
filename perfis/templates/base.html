@@ -9,9 +9,32 @@
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
     <script src="{% static 'scripts/vendor/jquery-1.9.1.js' %}"></script>
     <script src="{% static 'scripts/vendor/bootstrap-min.js' %}"></script>
+    <script src="{% static 'scripts/vendor/cookie.js' %}"></script>
 
 </head>
 <body>
+
+<div class="modal fade" id="mi-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirma</h5>
+{#                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">#}
+{#                    <span aria-hidden="true">&times;</span>#}
+{#                </button>#}
+            </div>
+            <div class="modal-body" id="msg-confirm">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal-btn-nao" class="btn btn-danger" data-dismiss="modal">Não</button>
+                <button type="button" id="modal-btn-sim" class="btn btn-success">Sim</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -56,4 +79,5 @@
       </div>
     </footer>
 </body>
+ <script src="{% static 'scripts/main.js' %}"></script>
 </html>

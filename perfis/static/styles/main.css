@@ -106,12 +106,22 @@ logo {
 .sidebar-right{
 }
 
+.option{
+    color: #5e5e5e !important;
+}
+.option span{
+    font-weight: 900;
+    font-size: 1.2em;
+    color: #EB7077;
+}
+
+
 footer {
     position: fixed;
-    height: 100px;
+    height: 70px;
     bottom: 0;
     width: 100%;
     background-color: white;
     text-align: center;
-    padding-top: 30px;
+    padding-top: 10px;
 }
