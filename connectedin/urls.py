@@ -18,6 +18,7 @@ from django.urls import path, include
 from perfis import views
 from usuarios.views import RegistrarUsuarioView, LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
+from django.conf.urls import url
 
 urlpatterns = [
     path('v1/', include('api.urls'), name='api'),
@@ -29,6 +30,10 @@ urlpatterns = [
     path('convite/<int:convite_id>/aceitar',views.aceitar, name='aceitar'),
     path('convite/<int:convite_id>/recusar',views.recusar, name='recusar'),
     path('registrar/', RegistrarUsuarioView.as_view(), name="registrar"),
+
+    path('teste/', views.index, name="teste"),
+    url(r'teste/(?P<room_name>[^/]+)/', views.room, name="room"),
+
     path('login/', LoginView.as_view(template_name = 'login.html'), name="login"),
     path('logout/', LogoutView.as_view(template_name = 'login.html'), name="logout")
 ]

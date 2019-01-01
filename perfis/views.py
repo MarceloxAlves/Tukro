@@ -3,6 +3,8 @@ from perfis.models import Perfil, Convite, Postagem
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View, TemplateView
+from django.utils.safestring import mark_safe
+import json
 
 
 # Create your views here.
@@ -81,3 +83,12 @@ def recusar(request, convite_id):
     convite = Convite.objects.get(id=convite_id)
     convite.recusar()
     return redirect('index');
+
+
+def index(request):
+    return render(request, 'teste/index.html', {})
+
+def room(request, room_name):
+    return render(request, 'teste/room.html', {
+        'room_name_json': mark_safe(json.dumps(room_name))
+    })

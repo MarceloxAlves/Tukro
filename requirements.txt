@@ -1,3 +1,4 @@
 djangorestframework
 channels
 pypiwin32
+channels_redis
