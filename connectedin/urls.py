@@ -23,14 +23,9 @@ from django.conf.urls import url
 urlpatterns = [
     path('v1/', include('api.urls'), name='api'),
     path('perfil/', include('perfis.urls'), name='perfil'),
+    path('', include('usuarios.urls'), name='usuario'),
     path('admin/', admin.site.urls),
-
-    path('', login_required(views.HomeView.as_view()), name='index'),
-    path('registrar/', RegistrarUsuarioView.as_view(), name="registrar"),
 
     path('teste/', views.index, name="teste"),
     url(r'teste/(?P<room_name>[^/]+)/', views.room, name="room"),
-
-    path('login/', LoginView.as_view(template_name = 'login.html'), name="login"),
-    path('logout/', LogoutView.as_view(template_name = 'login.html'), name="logout")
 ]
