@@ -8,10 +8,13 @@
 
                 <div class="panel-body">
                     <div class="row perfil-home">
-                        <div class="col-md-4 "><img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                        <div class="col-md-4 ">
+                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
                         </div>
                         <div class="col-md-8 text-center" style="padding-top: 5%;">
-                            <logo>{{ user.perfil.nome }}</logo>
+                            <logo>
+                                <a href="{% url 'exibir_meu_perfil' user.perfil.id %}"> {{ user.perfil.nome }}</a>
+                            </logo>
                         </div>
                     </div>
                 </div>
@@ -129,23 +132,25 @@
                             <strong> {{ total }}
                                 Convite{{ total|pluralize }} aguardando aprovação</strong>
                         </div>
-                        <ul class="list-group">
-                        {% for convite in user.perfil.convites_recebidos.all %}
-                            <li class="list-inline-item">
-                                <a href="{% url 'exibir' convite.solicitante.id %}">
-                                    {{ convite.solicitante.nome }}
-                                </a>
-                            </li>
-                            <li class="list-inline-item pull-right">
-                                <a href="{% url 'recusar' convite.id %}">recusar</a>
-                            </li>
-                            <li class="list-inline-item pull-right">
-                                <a href="{% url 'aceitar' convite.id %}">aceitar</a>
-                            </li>
 
-                            </li>
-                        {% endfor %}
-                    </ul>
+                        <div class="panel-body">
+
+                            <ul class="list-group">
+                                {% for convite in user.perfil.convites_recebidos.all %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a href="{% url 'exibir' convite.solicitante.id %}">
+                                            {{ convite.solicitante.nome }}
+                                        </a>
+
+                                        <a href="{% url 'aceitar' convite.id %}" class="btn btn-primary btn-sm" >Aceitar</a>
+
+                                        <a href="{% url 'recusar' convite.id %}" class="btn btn-danger btn-sm">Recusar</a>
+
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
                     {% else %}
                         <div class="panel-body">
                             Não há convites

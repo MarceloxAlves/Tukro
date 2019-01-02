@@ -21,16 +21,10 @@ from django.contrib.auth.decorators import login_required
 from django.conf.urls import url
 
 urlpatterns = [
-    path('v1/', include('api.urls'), name='api'),
-    path('perfil/', include('perfis.urls'), name='perfil'),
-    path('admin/', admin.site.urls),
-
-    path('', login_required(views.HomeView.as_view()), name='index'),
-    path('registrar/', RegistrarUsuarioView.as_view(), name="registrar"),
-
-    path('teste/', views.index, name="teste"),
-    url(r'teste/(?P<room_name>[^/]+)/', views.room, name="room"),
-
-    path('login/', LoginView.as_view(template_name = 'login.html'), name="login"),
-    path('logout/', LogoutView.as_view(template_name = 'login.html'), name="logout")
+    path('<int:perfil_id>', views.exibir_perfil, name='exibir'),
+    path('/meu_perfil/<int:perfil_id>', views.exibir_meu_perfil, name='exibir_meu_perfil'),
+    path('<int:perfil_id>/convidar', views.convidar, name='convidar'),
+    path('<int:perfil_id>/desfazer', views.desfazer_amizade, name='desfazer'),
+    path('convite/<int:convite_id>/aceitar', views.aceitar, name='aceitar'),
+    path('convite/<int:convite_id>/recusar', views.recusar, name='recusar'),
 ]
