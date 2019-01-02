@@ -11,12 +11,13 @@ import json
 
 class HomeView(View):
     template_name = 'index.html'
+
     def get(self, request):
         contexto = {
             'perfis': self.get_perfis(),
             'postagens': self.get_postagens(request),
         }
-        return render(request, self.template_name,contexto)
+        return render(request, self.template_name, contexto)
 
     def post(self, request):
         texto = request.POST["texto"];
@@ -95,7 +96,15 @@ def recusar(request, convite_id):
 def index(request):
     return render(request, 'teste/index.html', {})
 
+
 def room(request, room_name):
     return render(request, 'teste/room.html', {
         'room_name_json': mark_safe(json.dumps(room_name))
     })
+
+
+class BuscaAmigoView(TemplateView):
+    def get(self, request):
+        pesquisa = request.GET['q']
+        resultado = Perfil.objects.filter(nome__contains=pesquisa).exclude(usuario=request.user)
+        return  render(request, self.template_name, {'resultado': resultado})

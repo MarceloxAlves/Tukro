@@ -22,9 +22,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Confirma</h5>
-{#                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">#}
-{#                    <span aria-hidden="true">&times;</span>#}
-{#                </button>#}
+                {#                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">#}
+                {#                    <span aria-hidden="true">&times;</span>#}
+                {#                </button>#}
             </div>
             <div class="modal-body" id="msg-confirm">
 
@@ -58,28 +58,37 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">{{ user.perfil.nome }} <span class="fa fa-caret-down"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'exibir_meu_perfil' user.perfil.id %}"><i class="fa fa-user"></i> Perfil</a></li>
+                            <li><a href="{% url 'exibir_meu_perfil' user.perfil.id %}"><i class="fa fa-user"></i> Perfil</a>
+                            </li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Sair</a></li>
                         </ul>
                     </li>
                 </ul>
+                <form class="navbar-form navbar-right form-inline" action="{% url 'busca' %}" style="width: 30%">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control"  placeholder="Pesquisar">
+                            <div class="input-group-addon"><span class="fa fa-search"></span></div>
+                        </div>
+                    </div>
+                </form>
             {% endif %}
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<div class="container-fluid" >
-    <div class="row content" >
+<div class="container-fluid">
+    <div class="row content">
         {% block body %}
         {% endblock %}
     </div>
 </div>
 <footer class="footer">
-      <div class="container">
+    <div class="container">
         <p class="text-muted"> &copy Tukro</p>
         <small class="text-muted text-right">Developed by: Marcelo Alves | Hipolito Jr</small>
-      </div>
-    </footer>
+    </div>
+</footer>
 </body>
- <script src="{% static 'scripts/main.js' %}"></script>
+<script src="{% static 'scripts/main.js' %}"></script>
 </html>
