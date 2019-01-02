@@ -22,7 +22,7 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('<int:perfil_id>', views.exibir_perfil, name='exibir'),
-    path('/meu_perfil/<int:perfil_id>', views.exibir_meu_perfil, name='exibir_meu_perfil'),
+    path('meu_perfil/<int:perfil_id>', views.exibir_meu_perfil, name='exibir_meu_perfil'),
     path('<int:perfil_id>/convidar', views.convidar, name='convidar'),
     path('<int:perfil_id>/desfazer', views.desfazer_amizade, name='desfazer'),
     path('convite/<int:convite_id>/aceitar', views.aceitar, name='aceitar'),
