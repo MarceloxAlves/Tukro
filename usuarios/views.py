@@ -1,9 +1,11 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.views.generic.base import View, TemplateView
-from perfis.models import Perfil
-from usuarios.forms import RegistrarUsuarioForm
+from perfis.models import Perfil, Postagem
+from usuarios.forms import RegistrarUsuarioForm, AlterarSenhaForm
 
 
 class RegistrarUsuarioView(View):
@@ -27,6 +29,27 @@ class RegistrarUsuarioView(View):
             perfil.save()
             return redirect('index')
         return render(request, self.template_name, {'form': form})
+
+
+class ChangePasswordView(View):
+
+    def post(self, request):
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('index')
+        else:
+            messages.error(request, 'Please correct the error below.')
+
+        perfil = Perfil.objects.get(id=request.user.perfil.id)
+        postagens = Postagem.objects.filter(perfil=request.user.perfil.id)
+
+        return render(request, 'meu_perfil.html',
+                      {'perfil': perfil,
+                       'postagens': postagens,
+                       'form': form})
 
 
 class LoginView(TemplateView):

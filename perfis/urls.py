@@ -16,11 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from perfis import views
+from usuarios import views as views_usuario
 from usuarios.views import RegistrarUsuarioView, LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.conf.urls import url
 
 urlpatterns = [
+    path('password', login_required(views_usuario.ChangePasswordView.as_view()), name='change_password'),
     path('<int:perfil_id>', views.exibir_perfil, name='exibir'),
     path('meu_perfil/<int:perfil_id>', views.exibir_meu_perfil, name='exibir_meu_perfil'),
     path('<int:perfil_id>/convidar', views.convidar, name='convidar'),
