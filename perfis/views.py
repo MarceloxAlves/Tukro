@@ -21,14 +21,9 @@ class HomeView(View):
     def post(self, request):
         texto = request.POST["texto"];
         usuario = request.user
-        print(usuario)
         postagem = Postagem(texto=texto, perfil=usuario.perfil)
         postagem.save()
-        contexto = {
-            'perfis': self.get_perfis(),
-            'postagens': self.get_postagens(request),
-        }
-        return render(request, self.template_name, contexto)
+        return redirect('index')
 
     def get_perfis(self):
         return Perfil.objects.all();
