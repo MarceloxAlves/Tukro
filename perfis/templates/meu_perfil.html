@@ -7,10 +7,13 @@
         <div class="panel panel-default">
 
             <div class="panel-body">
-                <div class="row perfil-home">
-                    <div class="col-md-4 "><img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
                     </div>
-                    <div class="col-md-8 text-center" style="padding-top: 5%;">
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center" style="padding-top: 5%;">
                         <logo>{{ perfil.nome }}</logo>
                     </div>
                 </div>
@@ -154,19 +157,19 @@
                                                class="form-control" placeholder="Confirme a nova senha:">
                                     </div>
                                     {% if form.errors %}
-                                        {% for field in form %}
-                                            {% for error in field.errors %}
-                                                <div class="alert alert-danger">
-                                                    <strong>{{ error|escape }}</strong>
-                                                </div>
-                                            {% endfor %}
-                                        {% endfor %}
+                                    {% for field in form %}
+                                    {% for error in field.errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                    {% endfor %}
+                                    {% endfor %}
 
-                                        {% for error in form.non_field_errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
+                                    {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                    {% endfor %}
                                     {% endif %}
                                     <div class="form-group">
                                         <div class="row">
@@ -186,5 +189,7 @@
         </div>
     </div>
 
-    <script src="{% static 'scripts/home.js' %}"></script>
-    {% endblock %}
+</div>
+
+<script src="{% static 'scripts/home.js' %}"></script>
+{% endblock %}
