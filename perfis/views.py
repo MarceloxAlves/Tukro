@@ -40,9 +40,21 @@ class HomeView(View):
 @login_required
 def exibir_perfil(request, perfil_id):
     perfil = Perfil.objects.get(id=perfil_id)
+    postagens = Postagem.objects.filter(perfil=perfil_id)
 
     return render(request, 'perfil.html',
-                  {'perfil': perfil})
+                  {'perfil': perfil,
+                   'postagens': postagens})
+
+
+@login_required
+def exibir_meu_perfil(request, perfil_id):
+    perfil = Perfil.objects.get(id=perfil_id)
+    postagens = Postagem.objects.filter(perfil=perfil_id)
+
+    return render(request, 'meu_perfil.html',
+                  {'perfil': perfil,
+                   'postagens': postagens})
 
 
 @login_required
