@@ -44,9 +44,9 @@ def exibir_perfil(request, perfil_id):
 
 
 @login_required
-def exibir_meu_perfil(request, perfil_id):
-    perfil = Perfil.objects.get(id=perfil_id)
-    postagens = Postagem.objects.filter(perfil=perfil_id)
+def exibir_meu_perfil(request):
+    perfil = Perfil.objects.get(id=request.user.perfil.id)
+    postagens = Postagem.objects.filter(perfil=request.user.perfil.id)
 
     return render(request, 'meu_perfil.html',
                   {'perfil': perfil,

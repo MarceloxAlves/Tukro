@@ -22,9 +22,9 @@ from django.contrib.auth.decorators import login_required
 from django.conf.urls import url
 
 urlpatterns = [
-    path('password', login_required(views_usuario.ChangePasswordView.as_view()), name='change_password'),
+    path('change-password/', login_required(views_usuario.ChangePasswordView.as_view()), name='change_password'),
     path('<int:perfil_id>', views.exibir_perfil, name='exibir'),
-    path('meu_perfil/<int:perfil_id>', views.exibir_meu_perfil, name='exibir_meu_perfil'),
+    path('meu-perfil/', views.exibir_meu_perfil, name='exibir_meu_perfil'),
     path('<int:perfil_id>/convidar', views.convidar, name='convidar'),
     path('<int:perfil_id>/desfazer', views.desfazer_amizade, name='desfazer'),
     path('convite/<int:convite_id>/aceitar', views.aceitar, name='aceitar'),
