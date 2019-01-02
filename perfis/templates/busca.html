@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+    <div class="row" style="margin-bottom: 100px;">
+        <div class="col-md-3 sidebar-left">
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    <div class="row perfil-home">
+                        <div class="col-md-4 ">
+                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                        </div>
+                        <div class="col-md-8 text-center" style="padding-top: 5%;">
+                            <logo>
+                                <a href="{% url 'exibir_meu_perfil' user.perfil.id %}"> {{ user.perfil.nome }}</a>
+                            </logo>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-9 ">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Resultado da Pesquisa
+                </div>
+                <div class="panel-body">
+                    {% if resultado %}
+                        <ul class="list-group">
+                            {% for perfil in resultado %}
+                                <li class="list-group-item">
+                                    <a href="{% url 'exibir' perfil.id %}">    {{ perfil.nome }} / {{ perfil.email }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">Nenhum resultado encontrado</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'scripts/home.js' %}"></script>
+{% endblock %}

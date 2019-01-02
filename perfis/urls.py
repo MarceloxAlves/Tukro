@@ -29,4 +29,5 @@ urlpatterns = [
     path('<int:perfil_id>/desfazer', views.desfazer_amizade, name='desfazer'),
     path('convite/<int:convite_id>/aceitar', views.aceitar, name='aceitar'),
     path('convite/<int:convite_id>/recusar', views.recusar, name='recusar'),
+    path('busca/', login_required(views.BuscaAmigoView.as_view(template_name='busca.html')), name='busca'),
 ]
