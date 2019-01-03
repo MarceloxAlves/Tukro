@@ -30,6 +30,16 @@ class Perfil(models.Model):
         self.save()
         perfil_amigo.save()
 
+    def get_postagens(self):
+        postagens = []
+        for post in self.timeline.all():
+            postagens.append(post)
+
+        for contato in self.contatos.all():
+            for post in contato.timeline.all():
+                postagens.append(post)
+
+        return sorted(postagens, key=Postagem.get_id,reverse=True)
 
 
 class Convite(models.Model):
@@ -51,6 +61,9 @@ class Postagem(models.Model):
 
     class Meta:
         ordering = ['-data']
+
+    def get_id(self):
+        return self.id
 
     def __str__(self):
         return self.texto

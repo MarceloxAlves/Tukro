@@ -15,7 +15,7 @@ class HomeView(View):
     def get(self, request):
         contexto = {
             'perfis': self.get_perfis(),
-            'postagens': self.get_postagens(request),
+            'postagens': request.user.perfil.get_postagens(),
         }
         return render(request, self.template_name, contexto)
 
