@@ -49,9 +49,15 @@ class Perfil(models.Model):
         for post in self.timeline.all():
             postagens.append(post)
         for contato in self.contatos.all():
-            for post in contato.timeline.all():
+            for post in contato.timeline.all().exclude(privacidade='PRIVATE'):
                 postagens.append(post)
 
+        return sorted(postagens, key=Postagem.get_id, reverse=True)
+
+    def get_public_perfil(self):
+        postagens = []
+        for post in self.timeline.filter(privacidade='PUBLIC'):
+            postagens.append(post)
         return sorted(postagens, key=Postagem.get_id, reverse=True)
 
 
