@@ -145,5 +145,8 @@ LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'tukro.contato@gmail.com'
+EMAIL_HOST_PASSWORD = 'Tukro1234'
