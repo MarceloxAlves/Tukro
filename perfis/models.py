@@ -22,7 +22,20 @@ class Perfil(models.Model):
             convite.save()
 
     def pode_convidar(self, perfil_convidado):
-        return True if not perfil_convidado in self.contatos.all() else False
+        return self.regras_convite(perfil_convidado)['pode']
+
+    def regras_convite(self, perfil_convidado):
+        recebidos = Convite.objects.filter(solicitante=perfil_convidado, convidado=self)
+        enviados = Convite.objects.filter(solicitante=self, convidado=perfil_convidado)
+
+        if perfil_convidado in self.contatos.all():
+            return {'pode':False, 'motivo': 'friends'}
+        elif enviados:
+            return {'pode': False, 'motivo': 'send'}
+        elif recebidos:
+            return {'pode': False, 'motivo': 'received'}
+
+        return {'pode': True}
 
     def desfazer_amizade(self, perfil_amigo):
         self.contatos.remove(perfil_amigo)
