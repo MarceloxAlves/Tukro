@@ -14,9 +14,11 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='login.html'), name="login"),
     path('logout/', LogoutView.as_view(template_name='login.html'), name="logout"),
     path('password-reset/', PasswordResetView.as_view(template_name = 'recuperar_senha.html'), name='password_reset'),
-    path('password-reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('password-reset/done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('password-reset/complete/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('password-reset/done/', PasswordResetDoneView.as_view(template_name='recuperar_senha_feito.html'), name='password_reset_done'),
+
+    path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name = 'recuperar_senha_confirm.html'), name='password_reset_confirm'),
+
+    path('reset/done/', PasswordResetCompleteView.as_view(template_name='recuperar_senha_complete.html'), name='password_reset_complete'),
 
 ]
 
