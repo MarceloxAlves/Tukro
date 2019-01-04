@@ -20,6 +20,8 @@ from usuarios import views as views_usuario
 from usuarios.views import RegistrarUsuarioView, LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.conf.urls import url
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, \
+                                        PasswordResetConfirmView, PasswordResetCompleteView
 
 urlpatterns = [
     path('change-password/', login_required(views_usuario.ChangePasswordView.as_view()), name='change_password'),
