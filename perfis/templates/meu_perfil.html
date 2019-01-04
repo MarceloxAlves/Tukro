@@ -16,6 +16,31 @@
                     <div class="col-md-12 text-center" style="padding-top: 5%;">
                         <logo>{{ perfil.nome }}</logo>
                     </div>
+                    <br>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    {{ perfil.nome_empresa }}
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    {{ perfil.telefone }}
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    {{ perfil.email }}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -92,14 +117,14 @@
                             <h4 class="panel-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
                                    href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Alterar email
+                                    Alterar Email
                                 </a>
                             </h4>
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
                              aria-labelledby="headingTwo">
                             <div class="panel-body">
-                                <form id="altera-email-form" action="{% url 'login' %}" method="post"
+                                <form id="altera-email-form" action="#" method="post"
                                       role="form" style="display: block;">
                                     {% csrf_token %}
                                     <div class="form-group">
@@ -117,7 +142,7 @@
                                             <div class="col-sm-6 col-sm-offset-3">
                                                 <input type="submit" name="login-submit" id="altera-email-submit"
                                                        tabindex="4"
-                                                       class="form-control btn btn-login" value="Entrar">
+                                                       class="form-control btn btn-submit" value="Entrar">
                                             </div>
                                         </div>
                                     </div>

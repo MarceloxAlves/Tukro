@@ -39,9 +39,11 @@ class HomeView(View):
 def exibir_perfil(request, perfil_id):
     perfil = Perfil.objects.get(id=perfil_id)
     postagens = Postagem.objects.filter(perfil=perfil_id)
+    regra_convite = request.user.perfil.regras_convite(perfil)
 
     return render(request, 'perfil.html',
                   {'perfil': perfil,
+                   'regra_convite': regra_convite,
                    'postagens': postagens})
 
 

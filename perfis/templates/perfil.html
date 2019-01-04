@@ -2,43 +2,76 @@
 {% load static %}
 {% block body %}
 
-    <div class="row" style="margin-bottom: 100px;">
-        <div class="col-md-3 sidebar-left">
-            <div class="panel panel-default">
+<div class="row" style="margin-bottom: 100px;">
+    <div class="col-md-3 sidebar-left">
+        <div class="panel panel-default">
 
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
-                        </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 text-center" style="padding-top: 5%;">
-                            <logo>{{ perfil.nome }}</logo>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center" style="padding-top: 5%;">
+                        <logo>{{ perfil.nome }}</logo>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 text-center" style="padding-top: 5%;">
+
+                    <div class="col-md-12 text-center" style="padding-top: 5%;">
+                        {% if regra_convite.pode %}
                             <a href="{% url 'convidar' perfil.id %}" class="btn btn-sm btn-primary">Adicionar aos amigos</a>
-                        </div>
+                        {% else %}
+                            {% if regra_convite.motivo == 'friends' %}
+                                <a href="{% url 'desfazer' perfil.id %}" class="btn btn-sm btn-secondary">Desfazer amizade</a>
+                            {% else %}
+                                <a href="" class="btn btn-sm btn-secondary"> Solicitação pendente</a>
+                            {% endif %}
+                        {% endif %}
                     </div>
+                    <br>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    {{ perfil.nome_empresa }}
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    {{ perfil.telefone }}
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    {{ perfil.email }}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
-        </div>
-        <div class="col-md-6">
 
-            {% if postagens %}
-                {% for postagem in postagens %}
-                    <div class="panel panel-default" id="postagem{{ postagem.id }}">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <img style="float: left" src="{% static 'img/photo.jpg' %}" class="img-circle"
-                                         width="30">
-                                    <span style="display:inline-block; padding-top:1%;">&nbsp;{{ postagem.perfil.nome }}</span>
-                                </div>
-                                <div class="col-md-3 text-right">
+        </div>
+    </div>
+    <div class="col-md-6">
+
+        {% if postagens %}
+        {% for postagem in postagens %}
+        <div class="panel panel-default" id="postagem{{ postagem.id }}">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-9">
+                        <img style="float: left" src="{% static 'img/photo.jpg' %}" class="img-circle"
+                             width="30">
+                        <span style="display:inline-block; padding-top:1%;">&nbsp;{{ postagem.perfil.nome }}</span>
+                    </div>
+                    <div class="col-md-3 text-right">
                                     <span class="dropdown">
                                     <a href="#" class="btn btn-link dropdown-toggle option" data-toggle="dropdown"
                                        role="button"
@@ -52,21 +85,21 @@
                                                positive="DeletePostagem"><i class="fa fa-trash"></i> Deletar</a></li>
                                     </ul>
                                 </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            {{ postagem.texto }}
-                        </div>
-                        <div class="panel-footer text-right">
-                            <small>{{ postagem.data }}</small>
-                        </div>
                     </div>
-                {% endfor %}
-            {% else %}
-                <p class="text-muted">Ainda não há postagens relacionadas ao seu perfil</p>
-            {% endif %}
+                </div>
+            </div>
+            <div class="panel-body">
+                {{ postagem.texto }}
+            </div>
+            <div class="panel-footer text-right">
+                <small>{{ postagem.data }}</small>
+            </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-muted">Ainda não há postagens relacionadas ao seu perfil</p>
+        {% endif %}
     </div>
-    <script src="{% static 'scripts/home.js' %}"></script>
+</div>
+<script src="{% static 'scripts/home.js' %}"></script>
 {% endblock %}

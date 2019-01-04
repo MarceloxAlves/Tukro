@@ -2,10 +2,22 @@
 {% load static %}
 {% block body %}
 
-    <div class="row" style="margin-bottom: 100px;">
-        <div class="col-md-3 sidebar-left">
-            <div class="panel panel-default">
+<div class="row" style="margin-bottom: 100px;">
+    <div class="col-md-3 sidebar-left">
+        <div class="panel panel-default">
 
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center" style="padding-top: 5%;">
+                        <logo>{{ user.perfil.nome }}</logo>
+                    </div>
+                </div>
+            </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12 text-center">
@@ -75,109 +87,92 @@
                                                positive="DeletePostagem"><i class="fa fa-trash"></i> Deletar</a></li>
                                     </ul>
                                 </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            {{ postagem.texto }}
-                        </div>
-                        <div class="panel-footer text-right">
-                            <small>{{ postagem.data }}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                {{ postagem.texto }}
+            </div>
+            <div class="panel-footer text-right">
+                <small>{{ postagem.data }}</small>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-muted">Ainda não há postagens relacionadas ao seu perfil</p>
+        {% endif %}
+    </div>
+    <div class="col-md-3 sidebar-right">
+        <div class="panel panel-default">
+            {% with total=user.perfil.contatos.count %}
+            {% if total %}
+            <div class="panel-heading">
+                <strong> {{ total }}
+                    Amigo{{ total|pluralize }}
+                </strong>
+            </div>
+            <ul class="list-group">
+                {% for perfil in user.perfil.contatos.all %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                            <a href="{% url 'exibir' perfil.id %}" style="display:inline-block; padding: 2%;">
+                                {{ perfil }}
+                            </a>
                         </div>
                     </div>
+                </li>
                 {% endfor %}
+            </ul>
             {% else %}
-                <p class="text-muted">Ainda não há postagens relacionadas ao seu perfil</p>
+            <div class="panel-body text-muted">
+                <p>Não há amigos :(</p>
+                <p class="text-center"><a class="btn btn-primary btn-sm">Convidar amigo</a></p>
+            </div>
             {% endif %}
+            {% endwith %}
         </div>
-        <div class="col-md-3 sidebar-right">
-            <div class="panel panel-default">
-                {% with total=user.perfil.contatos.count %}
-                    {% if total %}
-                        <div class="panel-heading">
-                            <strong> {{ total }}
-                                Amigo{{ total|pluralize }}
-                            </strong>
-                        </div>
-                        <ul class="list-group">
-                            {% for perfil in user.perfil.contatos.all %}
-                                <div class="row " style="margin: 3%">
-                                    <div class="col-md-12">
-                                        <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
-                                        <a href="{% url 'exibir' perfil.id %}"
-                                           style="display:inline-block; padding: 2%;">
-                                            {{ perfil }}
-                                        </a>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div class="panel-body text-muted">
-                            <p>Não há amigos :(</p>
-                            <p class="text-center"><a class="btn btn-primary btn-sm">Convidar amigo</a></p>
-                        </div>
-                    {% endif %}
-                {% endwith %}
+
+        <div class="panel panel-default">
+            {% with total=user.perfil.convites_recebidos.count %}
+
+            {% if total %}
+            <div class="panel-heading">
+                <strong> {{ total }}
+                    Convite{{ total|pluralize }} aguardando aprovação</strong>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <strong>Todos os perfis</strong>
-                </div>
-                {% if perfis %}
-                    <ul class="list-group">
-                    {% for perfil in perfis %}
-                        <li class="list-group-item">
-                            <a href="{% url 'exibir' perfil.id %}"> {{ perfil.nome }} / {{ perfil.email }}
+            <ul class="list-group">
+                {% for convite in user.perfil.convites_recebidos.all %}
+                <li class="list-group-item">
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                            <a href="{% url 'exibir' convite.solicitante.id %}">
+                                {{ convite.solicitante.nome }}
                             </a>
-                        </li>
-                    {% endfor %}
-                {% else %}
-                    <p>Não há perfis cadastrados</p>
-                {% endif %}
-                </ul>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <a href="{% url 'aceitar' convite.id %}" class="">Aceitar</a>
+
+                            <a href="{% url 'recusar' convite.id %}" class="">Recusar</a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+
+            {% else %}
+            <div class="panel-body">
+                Não há convites
             </div>
-
-
-            <div class="panel panel-default">
-                {% with total=user.perfil.convites_recebidos.count %}
-
-                    {% if total %}
-                        <div class="panel-heading">
-                            <strong> {{ total }}
-                                Convite{{ total|pluralize }} aguardando aprovação</strong>
-                        </div>
-
-                        <div class="panel-body">
-
-                            <ul class="list-group">
-                                {% for convite in user.perfil.convites_recebidos.all %}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <a href="{% url 'exibir' convite.solicitante.id %}">
-                                            {{ convite.solicitante.nome }}
-                                        </a>
-
-                                        <a href="{% url 'aceitar' convite.id %}"
-                                           class="btn btn-primary btn-sm">Aceitar</a>
-
-                                        <a href="{% url 'recusar' convite.id %}"
-                                           class="btn btn-danger btn-sm">Recusar</a>
-
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-
-                    {% else %}
-                        <div class="panel-body">
-                            Não há convites
-                        </div>
-                    {% endif %}
-                {% endwith %}
-            </div>
+            {% endif %}
+            {% endwith %}
         </div>
-
     </div>
 
-    <script src="{% static 'scripts/home.js' %}"></script>
+</div>
+
+<script src="{% static 'scripts/home.js' %}"></script>
 {% endblock %}
