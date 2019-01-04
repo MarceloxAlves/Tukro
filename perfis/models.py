@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Perfil(models.Model):
     nome = models.CharField(max_length=255, null=False)
     telefone = models.CharField(max_length=15, null=False)
-    nome_empresa =  models.CharField(max_length=255, null=False)
+    nome_empresa = models.CharField(max_length=255, null=False)
     contatos = models.ManyToManyField('self')
     usuario = models.OneToOneField(User, related_name="perfil",
-    on_delete = models.CASCADE)
+                                   on_delete=models.CASCADE)
 
     @property
     def email(self):
@@ -18,7 +19,7 @@ class Perfil(models.Model):
 
     def convidar(self, perfil_convidado):
         if self.pode_convidar(perfil_convidado):
-            convite = Convite(solicitante=self,convidado = perfil_convidado)
+            convite = Convite(solicitante=self, convidado=perfil_convidado)
             convite.save()
 
     def pode_convidar(self, perfil_convidado):
@@ -34,17 +35,16 @@ class Perfil(models.Model):
         postagens = []
         for post in self.timeline.all():
             postagens.append(post)
-
         for contato in self.contatos.all():
             for post in contato.timeline.all():
                 postagens.append(post)
 
-        return sorted(postagens, key=Postagem.get_id,reverse=True)
+        return sorted(postagens, key=Postagem.get_id, reverse=True)
 
 
 class Convite(models.Model):
-    solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )
-    convidado = models.ForeignKey(Perfil, on_delete= models.CASCADE, related_name='convites_recebidos')
+    solicitante = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='convites_feitos')
+    convidado = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='convites_recebidos')
 
     def aceitar(self):
         self.solicitante.contatos.add(self.convidado)
@@ -54,10 +54,18 @@ class Convite(models.Model):
     def recusar(self):
         self.delete()
 
+
 class Postagem(models.Model):
+    PRIVACIDADES = (
+        ('PUBLIC', 'Público'),
+        ('FRIENDS','Amigos'),
+        ('PRIVATE', 'Somente eu'),
+
+    )
     texto = models.TextField()
     data = models.DateTimeField(auto_now=True)
     perfil = models.ForeignKey(Perfil, related_name='timeline', on_delete=models.CASCADE)
+    privacidade = models.CharField(max_length=10, default='PUBLIC', choices=PRIVACIDADES)
 
     class Meta:
         ordering = ['-data']
@@ -67,3 +75,5 @@ class Postagem(models.Model):
 
     def __str__(self):
         return self.texto
+
+
