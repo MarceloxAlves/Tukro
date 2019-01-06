@@ -1,0 +1,89 @@
+{% load static %}
+{% if postagens %}
+    {% for postagem in postagens %}
+        <div class="panel panel-default" id="postagem{{ postagem.id }}">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-9">
+                        <img style="float: left" src="{% static 'img/photo.jpg' %}" class="img-circle"
+                             width="40">
+                        <span style="display:inline-block; padding-top:1%;">&nbsp;{{ postagem.perfil.nome }}</span>
+                        <small style="display: block" class="text-muted">{{ postagem.data }}
+                            {% if postagem.privacidade ==  'PRIVATE' %}
+                                <span class="fa fa-lock" title="{{ postagem.PRIVACIDADES.2.1 }}"></span>
+                            {% elif postagem.privacidade ==  'FRIENDS' %}
+                                <span class="fa fa-group" title="{{ postagem.PRIVACIDADES.1.1 }}"></span>
+                            {% else %}
+                                <span class="fa fa-globe" title="{{ postagem.PRIVACIDADES.0.1 }}"></span>
+                            {% endif %}
+
+                        </small>
+                    </div>
+                    {% if user.id == postagem.perfil.usuario.id %}
+                        <div class="col-md-3 text-right">
+                        <span class="dropdown">
+                        <a href="#" class="btn btn-link dropdown-toggle option" data-toggle="dropdown"
+                           role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false"><span
+                                class="fa fa-ellipsis-v"></span></a>
+                        <ul class="dropdown-menu text-left">
+
+                        <li><a style="cursor: pointer" class="action"
+                               param="{{ postagem.id }}"
+                               data-msg="Deseja deletar a postagem '{{ postagem.texto }}' ?"
+                               positive="DeletePostagem"><i
+                                class="fa fa-trash"></i> Deletar</a></li>
+
+                    </ul>
+                    </span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="panel-body">
+                {{ postagem.texto }}
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <span class="badge" id="postagem{{ postagem.id }}reaction">{{ postagem.reactions.count }}</span>
+                    </div>
+                </div>
+                <ul class="nav nav-pills nav-justified">
+                    <li style="min-width: 2%; max-width: 2%" role="presentation"><a data-toggle="popover"
+                                                                                    role="button" tabindex="0"
+                                                                                    data-placement="top"
+                                                                                    data-trigger="focus"
+                                                                                    data-content='
+                       <div class="emojis">
+                       {% for reaction_type in postagem.get_reaction_type %}
+                           <i style="color:{{ reaction_type.color }}" onclick="reaction({{ postagem.id }}, {{ reaction_type.id }})" class="emoji animated infinite  slow {{ reaction_type.animation }} {{ reaction_type.icon }}"></i>
+                       {% endfor %}
+
+                       </div>
+                        '><span id="container{{ postagem.id }}reaction">
+                        {% if user.perfil in postagem.reactions.all %}
+                            {% for reaction in postagem.get_reacoes %}
+                                {% if user.perfil == reaction.perfil %}
+                                    <i style="color:{{ reaction.tipo.color }}" class="{{ reaction.tipo.icon }}"
+                                       aria-hidden="true"></i> {{ reaction.tipo.label }}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> Gostou
+                        {% endif %}
+                    </span></a></li>
+                    <li role="presentation"><a href="#"><i class="fa fa-comment" aria-hidden="true"></i> Comentar</a>
+                    </li>
+                    <li role="presentation"><a href="#"><i class="fa fa-share" aria-hidden="true"></i> Partilhar</a>
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="text-muted">Ainda não há postagens relacionadas ao seu perfil</p>
+{% endif %}

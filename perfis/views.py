@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View, TemplateView
 from django.utils.safestring import mark_safe
+from .forms import *
 import json
 
 
@@ -16,13 +17,15 @@ class HomeView(View):
         contexto = {
             'perfis': self.get_perfis(),
             'postagens': request.user.perfil.get_postagens(),
+            'privacidades': Postagem.PRIVACIDADES,
         }
         return render(request, self.template_name, contexto)
 
     def post(self, request):
         texto = request.POST["texto"];
+        privacidade = request.POST["privacidade"];
         usuario = request.user
-        postagem = Postagem(texto=texto, perfil=usuario.perfil)
+        postagem = Postagem(texto=texto, perfil=usuario.perfil, privacidade=privacidade)
         postagem.save()
         return redirect('index')
 
@@ -36,7 +39,7 @@ class HomeView(View):
 @login_required
 def exibir_perfil(request, perfil_id):
     perfil = Perfil.objects.get(id=perfil_id)
-    postagens = Postagem.objects.filter(perfil=perfil_id)
+    postagens = perfil.get_public_perfil()
     regra_convite = request.user.perfil.regras_convite(perfil)
 
     return render(request, 'perfil.html',
