@@ -8,7 +8,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                            <img src="{{ user.perfil.imagem.url }}" class="img-circle" width="80">
                         </div>
                     </div>
                     <div class="row">
@@ -75,7 +75,7 @@
                                 <li class="list-group-item">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                                            <img src="{{ perfil.imagem.url }}" class="img-circle" width="30">
                                             <a href="{% url 'exibir' perfil.id %}"
                                                style="display:inline-block; padding: 2%;">
                                                 {{ perfil }}
@@ -88,7 +88,6 @@
                     {% else %}
                         <div class="panel-body text-muted">
                             <p>Não há amigos :(</p>
-                            <p class="text-center"><a class="btn btn-primary btn-sm">Convidar amigo</a></p>
                         </div>
                     {% endif %}
                 {% endwith %}
@@ -108,15 +107,14 @@
 
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                                            <img src="{{ convite.solicitante.imagem.url }}" class="img-circle" width="30">
                                             <a href="{% url 'exibir' convite.solicitante.id %}">
                                                 {{ convite.solicitante.nome }}
                                             </a>
                                         </div>
                                         <div class="col-md-4 text-center">
-                                            <a href="{% url 'aceitar' convite.id %}" class="">Aceitar</a>
-
-                                            <a href="{% url 'recusar' convite.id %}" class="">Recusar</a>
+                                            <a href="{% url 'aceitar' convite.id %}" class=""><span class="label label-success">Aceitar</span></a>
+                                            <a href="{% url 'recusar' convite.id %}" class=""><span class="label label-danger">Recusar</span></a>
                                         </div>
                                     </div>
                                 </li>
