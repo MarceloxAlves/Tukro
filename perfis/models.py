@@ -86,6 +86,7 @@ class Postagem(models.Model):
     perfil = models.ForeignKey(Perfil, related_name='timeline', on_delete=models.CASCADE)
     privacidade = models.CharField(max_length=10, default='PUBLIC', choices=PRIVACIDADES)
     reactions = models.ManyToManyField(Perfil, through='Reaction')
+    imagem = models.ImageField(upload_to='postagem', null=True)
 
     class Meta:
         ordering = ['-data']

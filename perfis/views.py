@@ -24,8 +24,9 @@ class HomeView(View):
     def post(self, request):
         texto = request.POST["texto"];
         privacidade = request.POST["privacidade"];
+        imagem =  request.FILES["imagem"];
         usuario = request.user
-        postagem = Postagem(texto=texto, perfil=usuario.perfil, privacidade=privacidade)
+        postagem = Postagem(texto=texto, perfil=usuario.perfil, privacidade=privacidade, imagem=imagem)
         postagem.save()
         return redirect('index')
 

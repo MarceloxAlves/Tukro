@@ -19,6 +19,8 @@ from perfis import views
 from usuarios.views import RegistrarUsuarioView, LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('v1/', include('api.urls'), name='api'),
@@ -29,3 +31,6 @@ urlpatterns = [
     path('teste/', views.index, name="teste"),
     url(r'teste/(?P<room_name>[^/]+)/', views.room, name="room"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
