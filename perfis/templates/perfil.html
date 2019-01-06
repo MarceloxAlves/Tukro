@@ -19,13 +19,13 @@
 
                     <div class="col-md-12 text-center" style="padding-top: 5%;">
                         {% if regra_convite.pode %}
-                            <a href="{% url 'convidar' perfil.id %}" class="btn btn-sm btn-primary">Adicionar aos amigos</a>
+                        <a href="{% url 'convidar' perfil.id %}" class="btn btn-sm btn-primary">Adicionar aos amigos</a>
                         {% else %}
-                            {% if regra_convite.motivo == 'friends' %}
-                                <a href="{% url 'desfazer' perfil.id %}" class="btn btn-sm btn-secondary">Desfazer amizade</a>
-                            {% else %}
-                                <a href="" class="btn btn-sm btn-secondary"> Solicitação pendente</a>
-                            {% endif %}
+                        {% if regra_convite.motivo == 'friends' %}
+                        <a href="{% url 'desfazer' perfil.id %}" class="btn btn-sm btn-secondary">Desfazer amizade</a>
+                        {% else %}
+                        <a href="" class="btn btn-sm btn-secondary"> Solicitação pendente</a>
+                        {% endif %}
                         {% endif %}
                     </div>
                     <br>
@@ -33,21 +33,31 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-md-12 text-center">
-                                    {{ perfil.nome_empresa }}
+                                <div class="col-md-2 text-center">
+                                    <div class="input-group-addon"><i class="fa fa-briefcase"></i></div>
+                                </div>
+                                <div class="col-md-10 text-center">
+                                    Trabalha em {{ perfil.nome_empresa }}
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-md-12 text-center">
+                                <div class="col-md-2 text-center">
+                                    <div class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></div>
+                                </div>
+                                <div class="col-md-10 text-center">
                                     {{ perfil.telefone }}
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-md-12 text-center">
+                                <div class="col-md-2 text-center">
+                                    <div class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 text-center">
                                     {{ perfil.email }}
                                 </div>
                             </div>
