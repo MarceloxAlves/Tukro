@@ -5,7 +5,6 @@
     <div class="row" style="margin-bottom: 100px;">
         <div class="col-md-3 sidebar-left">
             <div class="panel panel-default">
-
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12 text-center">
@@ -51,44 +50,7 @@
                     </div>
                 </div>
             </form>
-            {% if postagens %}
-                {% for postagem in postagens %}
-                    <div class="panel panel-default" id="postagem{{ postagem.id }}">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <img style="float: left" src="{% static 'img/photo.jpg' %}" class="img-circle"
-                                         width="30">
-                                    <span style="display:inline-block; padding-top:1%;">&nbsp;{{ postagem.perfil.nome }}</span>
-                                </div>
-                                <div class="col-md-3 text-right">
-                                    <span class="dropdown">
-                                    <a href="#" class="btn btn-link dropdown-toggle option" data-toggle="dropdown"
-                                       role="button"
-                                       aria-haspopup="true"
-                                       aria-expanded="false"><span
-                                            class="fa fa-ellipsis-v"></span></a>
-                                    <ul class="dropdown-menu text-left">
-                                        <li><a style="cursor: pointer" class="action"
-                                               param="{{ postagem.id }}"
-                                               data-msg="Deseja deletar a postagem '{{ postagem.texto }}' ?"
-                                               positive="DeletePostagem"><i class="fa fa-trash"></i> Deletar</a></li>
-                                    </ul>
-                                </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            {{ postagem.texto }}
-                        </div>
-                        <div class="panel-footer text-right">
-                            <small>{{ postagem.data }}</small>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p class="text-muted">Ainda não há postagens relacionadas ao seu perfil</p>
-            {% endif %}
+            {% include 'base/postagem.html' %}
         </div>
         <div class="col-md-3 sidebar-right">
             <div class="panel panel-default">
@@ -162,6 +124,4 @@
         </div>
 
     </div>
-
-    <script src="{% static 'scripts/home.js' %}"></script>
 {% endblock %}

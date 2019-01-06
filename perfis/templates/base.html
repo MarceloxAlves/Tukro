@@ -3,20 +3,21 @@
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
-   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Tukro</title>
-    <link rel="icon" href="{% static 'img/icon_tukro.png' %}" type="image/x-icon" />
-    <link rel="shortcut icon" href="{% static 'img/icon_tukro.png' %}" type="image/x-icon" />
+    <link rel="icon" href="{% static 'img/icon_tukro.png' %}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{% static 'img/icon_tukro.png' %}" type="image/x-icon"/>
     <link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'fonts/fontawesome/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/animate.css' %}">
     <script src="{% static 'scripts/vendor/jquery-1.9.1.js' %}"></script>
     <script src="{% static 'scripts/vendor/bootstrap-min.js' %}"></script>
     <script src="{% static 'scripts/vendor/cookie.js' %}"></script>
-
 </head>
 <body>
+
 
 <div class="modal fade" id="mi-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -60,7 +61,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">{{ user.perfil.nome }} <span class="fa fa-caret-down"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'exibir_meu_perfil'%}"><i class="fa fa-user"></i> Perfil</a>
+                            <li><a href="{% url 'exibir_meu_perfil' %}"><i class="fa fa-user"></i> Perfil</a>
                             </li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Sair</a></li>
@@ -70,7 +71,7 @@
                 <form class="navbar-form navbar-right form-inline" action="{% url 'busca' %}" style="width: 30%">
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="text" name="q" class="form-control"  placeholder="Pesquisar">
+                            <input type="text" name="q" class="form-control" placeholder="Pesquisar">
                             <div class="input-group-addon"><span class="fa fa-search"></span></div>
                         </div>
                     </div>
@@ -93,4 +94,16 @@
 </footer>
 </body>
 <script src="{% static 'scripts/main.js' %}"></script>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover(
+            {
+                html: true,
+                width: '200%'
+            }
+        )
+    })
+
+</script>
+<script src="{% static 'scripts/home.js' %}"></script>
 </html>

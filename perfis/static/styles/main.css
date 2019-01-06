@@ -131,3 +131,11 @@ footer {
         position: relative;
     }
 }
+
+.emojis{
+    font-size: 1.5em;
+}
+
+.emojis i{
+   cursor: pointer;
+}

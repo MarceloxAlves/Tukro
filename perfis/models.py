@@ -79,12 +79,13 @@ class Postagem(models.Model):
         ('PUBLIC', 'Público'),
         ('FRIENDS','Amigos'),
         ('PRIVATE', 'Somente eu'),
-
     )
+
     texto = models.TextField()
     data = models.DateTimeField(auto_now=True)
     perfil = models.ForeignKey(Perfil, related_name='timeline', on_delete=models.CASCADE)
     privacidade = models.CharField(max_length=10, default='PUBLIC', choices=PRIVACIDADES)
+    reactions = models.ManyToManyField(Perfil, through='Reaction')
 
     class Meta:
         ordering = ['-data']
@@ -96,3 +97,27 @@ class Postagem(models.Model):
         return self.texto
 
 
+    def get_reaction_type(self):
+        return  ReactionType.objects.all()
+
+    def get_reacoes(self):
+        return  Reaction.objects.filter(postagem=self)
+
+
+
+
+class ReactionType(models.Model):
+    label =  models.CharField(max_length=10)
+    icon =  models.CharField(max_length=20)
+    animation =  models.CharField(max_length=20, default='')
+    color =  models.CharField(max_length=20, default='#CCC')
+
+
+class Reaction(models.Model):
+    perfil =  models.ForeignKey(Perfil, on_delete=models.CASCADE)
+    postagem =  models.ForeignKey(Postagem, on_delete=models.CASCADE)
+    tipo = models.ForeignKey(ReactionType, on_delete=models.CASCADE)
+
+
+class Partilhamento(Postagem):
+     post =  models.ForeignKey(Postagem, on_delete=models.CASCADE, related_name='partilhamentos')
