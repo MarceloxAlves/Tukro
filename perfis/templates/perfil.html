@@ -2,66 +2,80 @@
 {% load static %}
 {% block body %}
 
-<div class="row" style="margin-bottom: 100px;">
-    <div class="col-md-3 sidebar-left">
-        <div class="panel panel-default">
+    <div class="row" style="margin-bottom: 100px;">
+        <div class="col-md-3 sidebar-left">
+            <div class="panel panel-default">
 
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <img src="{{ perfil.imagem.url }}" class="img-circle" width="80">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-center" style="padding-top: 5%;">
-                        <logo>{{ perfil.nome }}</logo>
-                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" style="padding-top: 5%;">
+                            <logo>{{ perfil.nome }}</logo>
+                        </div>
 
-                    <div class="col-md-12 text-center" style="padding-top: 5%;">
-                        {% if regra_convite.pode %}
-                            <a href="{% url 'convidar' perfil.id %}" class="btn btn-sm btn-primary">Adicionar aos amigos</a>
-                        {% else %}
-                            {% if regra_convite.motivo == 'friends' %}
-                                <a href="{% url 'desfazer' perfil.id %}" class="btn btn-sm btn-secondary">Desfazer amizade</a>
+                        <div class="col-md-12 text-center" style="padding-top: 5%;">
+                            {% if regra_convite.pode %}
+                                <a href="{% url 'convidar' perfil.id %}" class="btn btn-sm btn-success">Adicionar aos
+                                    amigos</a>
                             {% else %}
-                                <a href="" class="btn btn-sm btn-secondary"> Solicitação pendente</a>
+                                {% if regra_convite.motivo == 'friends' %}
+                                    <a href="{% url 'desfazer' perfil.id %}" class="btn btn-sm btn-danger">Desfazer
+                                        amizade</a>
+                                {% else %}
+                                    <a href="" class="btn btn-sm btn-warning"> Solicitação pendente</a>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </div>
-                    <br>
+                            {% if user.is_superuser %}
+                                {% if  perfil.usuario.is_superuser %}
+                                    <a href="{% url 'toogle-promover' perfil.id %}"
+                                       style="display: block; margin-top: 10px;" class="btn btn-sm btn-danger"> Rebaixar
+                                        <i class="fa fa-arrow-down"></i></a>
+                                {% else %}
+                                    <a href="{% url 'toogle-promover' perfil.id %}"
+                                       style="display: block; margin-top: 10px;" class="btn btn-sm btn-primary">
+                                        Promover <i style="color: yellow;" class="fa fa-superpowers"></i></a>
+                                {% endif %}
+                            {% endif %}
 
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    {{ perfil.nome_empresa }}
+                        </div>
+                        <br>
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        {{ perfil.nome_empresa }}
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    {{ perfil.telefone }}
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        {{ perfil.telefone }}
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    {{ perfil.email }}
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        {{ perfil.email }}
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
 
             </div>
-
+        </div>
+        <div class="col-md-6">
+            {% include 'base/postagem.html' %}
         </div>
     </div>
-    <div class="col-md-6">
-       {% include 'base/postagem.html' %}
-    </div>
-</div>
-<script src="{% static 'scripts/home.js' %}"></script>
+    <script src="{% static 'scripts/home.js' %}"></script>
 {% endblock %}
