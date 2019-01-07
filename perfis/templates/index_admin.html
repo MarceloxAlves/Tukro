@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block body %}
+
+<div class="row" style="margin-bottom: 100px;">
+
+    <div class="col-md-3 sidebar-left">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center" style="padding-top: 5%;">
+                        <logo>
+                            <a href="{% url 'exibir_meu_perfil' %}">{{ user.perfil.nome }}</a>
+                        </logo>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <form action="{% url 'index' %}" method="post">
+            {% csrf_token %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Publicações</h3>
+                </div>
+                <div class="panel-body">
+                     <textarea name="texto" required class="form-control input-postagem" rows="2"
+                               placeholder="O que você tem em mente hoje?"></textarea>
+                </div>
+                <div class="panel-footer ">
+                    <div class="row">
+                        <div class="col-lg-3 text-left">
+                            <select class="form-control" name="privacidade">
+                                {% for privacidade in privacidades %}
+                                <option value="{{ privacidade.0 }}"> {{ privacidade.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-9 text-right">
+                            <input type="submit" class="btn btn-sm btn-primary" value="Partilhar">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+        {% include 'base/postagem.html' %}
+    </div>
+
+
+    <div class="col-md-3 sidebar-right">
+        <div class="panel panel-default">
+            {% with total=user.perfil.contatos.count %}
+            {% if total %}
+            <div class="panel-heading">
+                <strong> {{ total }}
+                    Amigo{{ total|pluralize }}
+                </strong>
+            </div>
+            <ul class="list-group">
+                {% for perfil in user.perfil.contatos.all %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                            <a href="{% url 'exibir' perfil.id %}"
+                               style="display:inline-block; padding: 2%;">
+                                {{ perfil }}
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="panel-body text-muted">
+                <p>Não há amigos :(</p>
+                <p class="text-center"><a class="btn btn-primary btn-sm">Convidar amigo</a></p>
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                Perfis cadastrados:
+            </div>
+            <ul class="list-group">
+                {% for perfil in perfis %}
+                <li class="list-group-item">
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                            <a href="{% url 'exibir' perfil.id %}">
+                                {{ perfil.nome }}
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="panel panel-default">
+            {% with total=user.perfil.convites_recebidos.count %}
+
+            {% if total %}
+            <div class="panel-heading">
+                <strong> {{ total }}
+                    Convite{{ total|pluralize }} aguardando aprovação</strong>
+            </div>
+            <ul class="list-group">
+                {% for convite in user.perfil.convites_recebidos.all %}
+                <li class="list-group-item">
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                            <a href="{% url 'exibir' convite.solicitante.id %}">
+                                {{ convite.solicitante.nome }}
+                            </a>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <a href="{% url 'aceitar' convite.id %}" class="">Aceitar</a>
+
+                            <a href="{% url 'recusar' convite.id %}" class="">Recusar</a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+
+            {% else %}
+            <div class="panel-body">
+                Não há convites
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
