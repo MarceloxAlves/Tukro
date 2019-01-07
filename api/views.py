@@ -45,13 +45,13 @@ class PostagemReacao(viewsets.ViewSet):
         perfil = request.user.perfil;
         postagem = Postagem.objects.get(id=pk)
         reactionType = ReactionType.objects.get(id=reaction)
-        reacoes  =  Reaction.objects.filter(postagem=postagem, perfil=perfil)
-        if(reacoes):
-            if(reacoes[0].tipo == reactionType):
+        reacoes = Reaction.objects.filter(postagem=postagem, perfil=perfil)
+        if (reacoes):
+            if (reacoes[0].tipo == reactionType):
                 reacoes[0].delete()
                 reactionType = ReactionType.objects.get(id=1)
             else:
-                reacoes[0].tipo =  reactionType
+                reacoes[0].tipo = reactionType
                 reacoes[0].save()
         else:
             reacao = Reaction(perfil=perfil, postagem=postagem, tipo=reactionType)
@@ -62,13 +62,36 @@ class PostagemReacao(viewsets.ViewSet):
         return Response(status=status.HTTP_200_OK, data={
             "postagem": {
                 "id": postagem.id
-            } ,
+            },
             "tipo": {
                 "icon": reactionType.icon,
                 "color": reactionType.color,
                 "label": reactionType.label,
             },
-           'total': total
+            'total': total
+        })
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def get_authenticators(self):
+        authentication_classes = [SessionAuthentication]
+        return [auth() for auth in authentication_classes]
+
+
+class PerfilViewSet(viewsets.ViewSet):
+
+    def alterar_imagem(self, request):
+        user = request.user.perfil
+        user.imagem = request.FILES['imagem']
+        user.save()
+        return Response(status=status.HTTP_200_OK, data={
+            "perfil":{
+                "imagem": {
+                    "url": user.imagem.url
+                }
+            }
         })
 
     def get_permissions(self):

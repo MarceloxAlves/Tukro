@@ -8,7 +8,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                            <img src="{{ user.perfil.imagem.url }}" class="img-circle" width="80">
                         </div>
                     </div>
                     <div class="row">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <form action="{% url 'index' %}" method="post">
+            <form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -31,7 +31,16 @@
                     </div>
                     <div class="panel-body">
                      <textarea name="texto" required class="form-control input-postagem" rows="2"
-                               placeholder="O que você tem em mente hoje?"></textarea>
+                               placeholder="O que você tem em mente, {{ user.perfil.nome }}?"></textarea>
+                        <div class="row-divider">
+                            <div class="col-lg-12">
+                                <div class="upload-btn-wrapper">
+                                    <a class="btn btn-anexo"><i class="text-muted fa fa-image"> Foto</i></a>
+                                    <input style="cursor: pointer" type="file" id="upload-foto" name="imagem"/>
+                                    <i class="text-muted" id="label-upload-foto"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-footer ">
                         <div class="row">
@@ -66,7 +75,7 @@
                                 <li class="list-group-item">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                                            <img src="{{ perfil.imagem.url }}" class="img-circle" width="30">
                                             <a href="{% url 'exibir' perfil.id %}"
                                                style="display:inline-block; padding: 2%;">
                                                 {{ perfil }}
@@ -79,7 +88,6 @@
                     {% else %}
                         <div class="panel-body text-muted">
                             <p>Não há amigos :(</p>
-                            <p class="text-center"><a class="btn btn-primary btn-sm">Convidar amigo</a></p>
                         </div>
                     {% endif %}
                 {% endwith %}
@@ -99,15 +107,14 @@
 
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                                            <img src="{{ convite.solicitante.imagem.url }}" class="img-circle" width="30">
                                             <a href="{% url 'exibir' convite.solicitante.id %}">
                                                 {{ convite.solicitante.nome }}
                                             </a>
                                         </div>
                                         <div class="col-md-4 text-center">
-                                            <a href="{% url 'aceitar' convite.id %}" class="">Aceitar</a>
-
-                                            <a href="{% url 'recusar' convite.id %}" class="">Recusar</a>
+                                            <a href="{% url 'aceitar' convite.id %}" class=""><span class="label label-success">Aceitar</span></a>
+                                            <a href="{% url 'recusar' convite.id %}" class=""><span class="label label-danger">Recusar</span></a>
                                         </div>
                                     </div>
                                 </li>
@@ -124,4 +131,16 @@
         </div>
 
     </div>
+    <script>
+        $("#upload-foto").change(function () {
+             var filePath = $(this).val()
+             var fileName = filePath.split(/(\\|\/)/g).pop();
+             if (fileValidation(filePath)) {
+                 $("#label-upload-foto").text(fileName)
+             }else{
+                  $(this).val('')
+                  $("#label-upload-foto").text("Arquivo inválido, procure uma imagem")
+             }
+        })
+    </script>
 {% endblock %}

@@ -42,3 +42,12 @@ function reaction(postagem_id, r) {
         }
     });
 }
+
+
+function fileValidation(filePath){
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    if(!allowedExtensions.exec(filePath)){
+        return false;
+    }
+    return true
+}

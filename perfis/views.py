@@ -24,8 +24,9 @@ class HomeView(View):
     def post(self, request):
         texto = request.POST["texto"];
         privacidade = request.POST["privacidade"];
+        imagem = request.FILES["imagem"];
         usuario = request.user
-        postagem = Postagem(texto=texto, perfil=usuario.perfil, privacidade=privacidade)
+        postagem = Postagem(texto=texto, perfil=usuario.perfil, privacidade=privacidade, imagem=imagem)
         postagem.save()
         return redirect('index')
 
@@ -56,6 +57,18 @@ def exibir_meu_perfil(request):
     return render(request, 'meu_perfil.html',
                   {'perfil': perfil,
                    'postagens': postagens})
+
+
+@login_required
+def prover_rebaixar(request, id):
+    perfil = Perfil.objects.get(id=id)
+    if request.user.is_superuser:
+        if not perfil.usuario.is_superuser:
+            perfil.usuario.is_superuser = True
+        else:
+            perfil.usuario.is_superuser = False
+        perfil.usuario.save()
+    return redirect('exibir', perfil_id=id)
 
 
 @login_required
@@ -112,4 +125,4 @@ class BuscaAmigoView(TemplateView):
     def get(self, request):
         pesquisa = request.GET['q']
         resultado = Perfil.objects.filter(nome__contains=pesquisa).exclude(usuario=request.user)
-        return  render(request, self.template_name, {'resultado': resultado})
+        return render(request, self.template_name, {'resultado': resultado})

@@ -6,6 +6,7 @@ class Perfil(models.Model):
     nome = models.CharField(max_length=255, null=False)
     telefone = models.CharField(max_length=15, null=False)
     nome_empresa = models.CharField(max_length=255, null=False)
+    imagem =  models.ImageField(upload_to='perfil', default='perfil/user.png')
     contatos = models.ManyToManyField('self')
     usuario = models.OneToOneField(User, related_name="perfil",
                                    on_delete=models.CASCADE)
@@ -86,6 +87,7 @@ class Postagem(models.Model):
     perfil = models.ForeignKey(Perfil, related_name='timeline', on_delete=models.CASCADE)
     privacidade = models.CharField(max_length=10, default='PUBLIC', choices=PRIVACIDADES)
     reactions = models.ManyToManyField(Perfil, through='Reaction')
+    imagem = models.ImageField(upload_to='postagem', null=True)
 
     class Meta:
         ordering = ['-data']

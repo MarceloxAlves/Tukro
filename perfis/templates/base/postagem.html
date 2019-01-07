@@ -5,8 +5,10 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-9">
-                        <img style="float: left" src="{% static 'img/photo.jpg' %}" class="img-circle"
-                             width="40">
+                        <img style="float: left" src="{{ postagem.perfil.imagem.url }}" class="img-circle {% if  postagem.perfil == user.perfil%}
+                            my-photo
+                        {% endif %}"
+                             width="40" height="40">
                         <span style="display:inline-block; padding-top:1%;">&nbsp;{{ postagem.perfil.nome }}</span>
                         <small style="display: block" class="text-muted">{{ postagem.data }}
                             {% if postagem.privacidade ==  'PRIVATE' %}
@@ -43,6 +45,10 @@
             </div>
             <div class="panel-body">
                 {{ postagem.texto }}
+                {% if postagem.imagem %}
+                    <img style="width: 100%; max-height: 626px;" src="{{ postagem.imagem.url }}"
+                         class="img-fluid" alt="Foto">
+                {% endif %}
             </div>
             <div class="panel-footer">
                 <div class="row">

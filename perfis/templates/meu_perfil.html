@@ -1,178 +1,204 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block body %}
 
-<div class="row" style="margin-bottom: 100px;">
-    <div class="col-md-3 sidebar-left">
-        <div class="panel panel-default">
+    <div class="row" style="margin-bottom: 100px;">
+        <div class="col-md-3 sidebar-left">
+            <div class="panel panel-default">
 
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <img  src="{{ perfil.imagem.url }}" class="img-circle my-photo" width="80" height="80">
+                            <form style="position: absolute; left: 55%; top:80%" id="imagem-form" method="post" enctype="multipart/form-data">
+                                <div data-toggle="tooltip" data-placement="top" title="{% trans 'Alterar Foto' %}"
+                                     class="upload-btn-wrapper">
+                                    <i style="font-size: 1.4em; color: #c1c1c1" class="text-muted fa fa-camera"></i>
+                                    <input style="cursor: pointer" type="file" id="upload-foto" name="imagem"/>
+                                    <i class="text-muted" id="label-upload-foto"></i>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center" style="padding-top: 5%;">
+                            <logo>{{ perfil.nome }}</logo>
+                        </div>
+                        <br>
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        {{ perfil.nome_empresa }}
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        {{ perfil.telefone }}
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        {{ perfil.email }}
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 text-center" style="padding-top: 5%;">
-                        <logo>{{ perfil.nome }}</logo>
-                    </div>
-                    <br>
 
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group-addon"><i class="fa fa-briefcase"></i></div>
-                                </div>
-                                <div class="col-md-10 text-center">
-                                    Trabalha em {{ perfil.nome_empresa }}
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></div>
-                                </div>
-                                <div class="col-md-10 text-center">
-                                    {{ perfil.telefone }}
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-10 text-center">
-                                    {{ perfil.email }}
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="col-md-6">
-        {% include 'base/postagem.html' %}
-    </div>
-
-    <div class="col-md-3">
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <logo>Minha conta</logo>
-            </div>
-
-            <div class="panel-body">
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Alterar Email
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingTwo">
-                            <div class="panel-body">
-                                <form id="altera-email-form" action="#" method="post"
-                                      role="form" style="display: block;">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <input type="text" name="email" id="email" tabindex="1"
-                                               class="form-control" placeholder="Email" value="">
-                                    </div>
-
-
-                                    {% if form.erros %}
-
-                                    {% endif %}
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="submit" name="login-submit" id="altera-email-submit"
-                                                       tabindex="4"
-                                                       class="form-control btn btn-submit" value="Entrar">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Alterar Senha
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel"
-                             aria-labelledby="headingThree">
-                            <div class="panel-body">
-                                <form id="altera-senha-form" action="{% url 'change_password' %}" method="post"
-                                      role="form" style="display: block;">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <input type="password" name="old_password" id="old_password" tabindex="2"
-                                               class="form-control" placeholder="Senha atual: ">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input type="password" name="new_password1" id="new_password1" tabindex="2"
-                                               class="form-control" placeholder="Nova senha:">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input type="password" name="new_password2" id="new_password2"
-                                               tabindex="2"
-                                               class="form-control" placeholder="Confirme a nova senha:">
-                                    </div>
-                                    {% if form.errors %}
-                                    {% for field in form %}
-                                    {% for error in field.errors %}
-                                    <div class="alert alert-danger">
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
-                                    {% endfor %}
-                                    {% endfor %}
-
-                                    {% for error in form.non_field_errors %}
-                                    <div class="alert alert-danger">
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
-                                    {% endfor %}
-                                    {% endif %}
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="submit" name="login-submit" id="altera-senha-submit"
-                                                       tabindex="4"
-                                                       class="form-control btn btn-success" value="Alterar">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+        <div class="col-md-6">
+            {% include 'base/postagem.html' %}
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <logo>Minha conta</logo>
+                </div>
+
+                <div class="panel-body">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Alterar Email
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <form id="altera-email-form" action="#" method="post"
+                                          role="form" style="display: block;">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="text" name="email" id="email" tabindex="1"
+                                                   class="form-control" placeholder="Email" value="">
+                                        </div>
+
+
+                                        {% if form.erros %}
+
+                                        {% endif %}
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-sm-offset-3">
+                                                    <input type="submit" name="login-submit" id="altera-email-submit"
+                                                           tabindex="4"
+                                                           class="form-control btn btn-submit" value="Entrar">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                       href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Alterar Senha
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel"
+                                 aria-labelledby="headingThree">
+                                <div class="panel-body">
+                                    <form id="altera-senha-form" action="{% url 'change_password' %}" method="post"
+                                          role="form" style="display: block;">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="password" name="old_password" id="old_password" tabindex="2"
+                                                   class="form-control" placeholder="Senha atual: ">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="password" name="new_password1" id="new_password1" tabindex="2"
+                                                   class="form-control" placeholder="Nova senha:">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="password" name="new_password2" id="new_password2"
+                                                   tabindex="2"
+                                                   class="form-control" placeholder="Confirme a nova senha:">
+                                        </div>
+                                        {% if form.errors %}
+                                            {% for field in form %}
+                                                {% for error in field.errors %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{ error|escape }}</strong>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endfor %}
+
+                                            {% for error in form.non_field_errors %}
+                                                <div class="alert alert-danger">
+                                                    <strong>{{ error|escape }}</strong>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-sm-offset-3">
+                                                    <input type="submit" name="login-submit" id="altera-senha-submit"
+                                                           tabindex="4"
+                                                           class="form-control btn btn-success" value="Alterar">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+    <script>
+        $("#upload-foto").change(function () {
+            var filePath = $(this).val()
+            var fileName = filePath.split(/(\\|\/)/g).pop();
+            if (fileValidation(filePath)) {
+                $("#label-upload-foto").html('<i class="animated infinite rotateIn text-primary fa fa-spinner" aria-hidden="true"></i>')
+                var url = API_BASE + 'perfil/alterar-imagem/'
+                var form = new FormData($("#imagem-form")[0])
+                form.append("imagem", $(this).val())
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form,
+                    success: function (data) {
+                        $('.my-photo').attr("src", data.perfil.imagem.url)
+                        $("#label-upload-foto").html('<i class="text-success fa fa-check" aria-hidden="true"></i>')
 
-</div>
-
-<script src="{% static 'scripts/home.js' %}"></script>
+                    }
+                });
+            } else {
+                $(this).val('')
+                $("#label-upload-foto").text("Arquivo inválido, procure uma imagem")
+            }
+        })
+    </script>
 {% endblock %}
