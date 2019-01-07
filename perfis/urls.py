@@ -29,6 +29,7 @@ urlpatterns = [
     path('meu-perfil/', views.exibir_meu_perfil, name='exibir_meu_perfil'),
     path('<int:perfil_id>/convidar', views.convidar, name='convidar'),
     path('<int:perfil_id>/desfazer', views.desfazer_amizade, name='desfazer'),
+    path('<int:perfil_id>/bloquear', views.bloquear_usuario, name='bloquear'),
     path('<int:id>/toogle-promover', views.prover_rebaixar, name='toogle-promover'),
     path('convite/<int:convite_id>/aceitar', views.aceitar, name='aceitar'),
     path('convite/<int:convite_id>/recusar', views.recusar, name='recusar'),

@@ -43,10 +43,13 @@ def exibir_perfil(request, perfil_id):
     postagens = perfil.get_public_perfil()
     regra_convite = request.user.perfil.regras_convite(perfil)
 
-    return render(request, 'perfil.html',
+    if not perfil in request.user.perfil.bloqueados.all():
+        return render(request, 'perfil.html',
                   {'perfil': perfil,
                    'regra_convite': regra_convite,
                    'postagens': postagens})
+    else:
+        return redirect('index')
 
 
 @login_required
@@ -57,6 +60,13 @@ def exibir_meu_perfil(request):
     return render(request, 'meu_perfil.html',
                   {'perfil': perfil,
                    'postagens': postagens})
+
+
+def bloquear_usuario(request, perfil_id):
+    perfil = Perfil.objects.get(id=perfil_id)
+    get_perfil_logado(request).perfil.bloquear(perfil)
+
+    return redirect('index')
 
 
 @login_required
@@ -124,5 +134,7 @@ def room(request, room_name):
 class BuscaAmigoView(TemplateView):
     def get(self, request):
         pesquisa = request.GET['q']
-        resultado = Perfil.objects.filter(nome__contains=pesquisa).exclude(usuario=request.user)
+        resultado = Perfil.objects.filter(nome__contains=pesquisa)\
+                                .exclude(usuario=request.user)\
+                                .exclude(usuario__perfil__in=request.user.perfil.bloqueados.all())
         return render(request, self.template_name, {'resultado': resultado})

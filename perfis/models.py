@@ -10,6 +10,7 @@ class Perfil(models.Model):
     contatos = models.ManyToManyField('self')
     usuario = models.OneToOneField(User, related_name="perfil",
                                    on_delete=models.CASCADE)
+    bloqueados = models.ManyToManyField('self')
 
     @property
     def email(self):
@@ -22,6 +23,11 @@ class Perfil(models.Model):
         if self.pode_convidar(perfil_convidado):
             convite = Convite(solicitante=self, convidado=perfil_convidado)
             convite.save()
+
+    def bloquear(self, perfil_bloqueado):
+        self.bloqueados.add(perfil_bloqueado)
+        self.desfazer_amizade(perfil_bloqueado)
+        self.save()
 
     def pode_convidar(self, perfil_convidado):
         return self.regras_convite(perfil_convidado)['pode']
