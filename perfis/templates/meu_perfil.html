@@ -28,27 +28,42 @@
                         <br>
 
                         <ul class="list-group">
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        {{ perfil.nome_empresa }}
+                             <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2 text-center">
+                                    <div class="input-group-addon">
+                                       <i class="fa fa-briefcase" aria-hidden="true"></i>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        {{ perfil.telefone }}
+                                <div class="col-md-9 text-left">
+                                    Trabalha em {{ perfil.nome_empresa }}
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row text-center">
+                                <div class="col-md-2 text-center">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-phone-square" aria-hidden="true"></i>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        {{ perfil.email }}
+                                <div class="col-md-9 text-left">
+                                    {{ perfil.telefone }}
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-2 text-center">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
                                     </div>
                                 </div>
-                            </li>
+                                <div class="col-md-9 text-left ">
+                                    {{ perfil.email }}
+                                </div>
+                            </div>
+                        </li>
                         </ul>
                     </div>
                 </div>

@@ -22,53 +22,48 @@
         </div>
 
         <div class="panel panel-default">
-            <div class="panel-body">
+            <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <logo>Grupos & Hashtags</logo>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 text-center" style="padding-top: 5%;">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <img src="" class="img-circle" width="30">
-                                        <a href="#"
-                                           style="display:inline-block; padding: 2%;">
-                                            #Reveillon2019
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <img src="" class="img-circle" width="30">
-                                        <a href="#"
-                                           style="display:inline-block; padding: 2%;">
-                                            Oz Pankadas
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <img src="" class="img-circle" width="30">
-                                        <a href="#"
-                                           style="display:inline-block; padding: 2%;">
-                                            #AbreuFolia
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
-
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                #Reveillon2019
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/icon_group.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                Os Mutantes !
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                #AbreuFolia
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
 
     </div>
@@ -149,7 +144,8 @@
             {% if total %}
             <div class="panel-heading">
                 <logo> {{ total }}
-                    Convite{{ total|pluralize }} aguardando</logo>
+                    Convite{{ total|pluralize }} aguardando
+                </logo>
             </div>
             <ul class="list-group">
                 {% for convite in user.perfil.convites_recebidos.all %}
@@ -194,6 +190,7 @@
                   $("#label-upload-foto").text("Arquivo inválido, procure uma imagem")
              }
         })
+
 
 </script>
 {% endblock %}
