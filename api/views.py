@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import viewsets, status
 from perfis.models import Postagem, Reaction, ReactionType, Justificativa
 from .serializer import PostagemSerializer
@@ -75,24 +76,27 @@ class PerfilViewSet(viewsets.ViewSet):
         user.imagem = request.FILES['imagem']
         user.save()
         return Response(status=status.HTTP_200_OK, data={
-            "perfil":{
+            "perfil": {
                 "imagem": {
                     "url": user.imagem.url
                 }
             }
         })
 
-
     def desativar_conta(self, request):
-        user = request.user.perfil
-        justificativa  = Justificativa(user=user, texto=request.POST['texto'])
-        justificativa.save()
-        user.is_active = False;
-        user.save();
-        return Response(status=status.HTTP_200_OK, data={
-            "msg": "usuario desativado"
-        })
-
+        try:
+            user = request.user
+            justificativa = Justificativa(user=user, texto=request.data['texto'])
+            justificativa.save()
+            user.is_active = False;
+            user.save();
+            return Response(status=status.HTTP_200_OK, data={
+                "msg": "usuario desativado"
+            })
+        except Exception as ex:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={
+                "erro": "Não foi possível desativar esta conta: " + str(ex)
+            })
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
@@ -100,4 +104,26 @@ class PerfilViewSet(viewsets.ViewSet):
 
     def get_authenticators(self):
         authentication_classes = [SessionAuthentication]
+        return [auth() for auth in authentication_classes]
+
+
+class ContaViewSet(viewsets.ViewSet):
+    def reativar_conta(self, request):
+        try:
+            user = User.objects.get(id=request.data['user_id']);
+            user.is_active = True
+            user.save()
+            return Response(status=status.HTTP_200_OK, data={
+                "msg": "Conta ativada"
+            })
+        except Exception as ex:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={
+                "erro": "Não foi possível ativar esta conta: " + str(ex)
+            })
+    def get_permissions(self):
+        permission_classes = []
+        return [permission() for permission in permission_classes]
+
+    def get_authenticators(self):
+        authentication_classes = []
         return [auth() for auth in authentication_classes]

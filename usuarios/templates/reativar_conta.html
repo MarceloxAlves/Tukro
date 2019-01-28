@@ -1,0 +1,57 @@
+{% extends 'base_home.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <br>
+                        <div class="col-xs-12">
+                            <a href="#" class="active" id="login-form-link">
+                                <p>Conta Inativa</p>
+                            </a>
+                            <p class="text-muted">Em: {{ inativo.perfil.get_justificativa.data_bloqueio }}</p>
+
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <img src="{{ inativo.perfil.imagem.url }}" class="img-circle my-photo" width="80"
+                                 height="80 "><br>
+                            <logo>{{ inativo.perfil.nome }}</logo>
+                            <p><b>Motivo:</b> {{ inativo.perfil.get_justificativa.texto }}</p>
+                            <br>
+                            <a tabindex="4" id="btnAtivarConta"  class="btn btn-success">Ativar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#btnAtivarConta").click(function () {
+            console.log("entrou")
+            var url = API_BASE + 'perfil/reativar-conta/'
+            var user_id = {{ inativo.id }};
+            $.ajax({
+                type: 'POST',
+                url: url,
+                headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({user_id: user_id}),
+                success: function (data) {
+                    alert(data.msg)
+                    top.location.href = "/login/"
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+        })
+    </script>
+{% endblock %}

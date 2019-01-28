@@ -75,6 +75,13 @@ class Perfil(models.Model):
             postagens.append(post)
         return sorted(postagens, key=Postagem.get_id, reverse=True)
 
+    def get_justificativa(self):
+        justificativas = self.usuario.justificativas.all()
+        print(justificativas)
+        if justificativas is not None:
+            return justificativas[0]
+        return None
+
 
 class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='convites_feitos')
@@ -145,10 +152,3 @@ class Justificativa(models.Model):
     data_bloqueio = models.DateTimeField(auto_now=True)
     class Meta:
         ordering = ['-data_bloqueio']
-
-    @staticmethod
-    def get_justificativa(user):
-        justificativas =  user.justificativas
-        if justificativas:
-            return  justificativas[0]
-        return None

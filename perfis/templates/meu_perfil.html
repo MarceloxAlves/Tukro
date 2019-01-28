@@ -10,8 +10,9 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <img  src="{{ perfil.imagem.url }}" class="img-circle my-photo" width="80" height="80   ">
-                            <form style="position: absolute; left: 55%; top:80%" id="imagem-form" method="post" enctype="multipart/form-data">
+                            <img src="{{ perfil.imagem.url }}" class="img-circle my-photo" width="80" height="80   ">
+                            <form style="position: absolute; left: 55%; top:80%" id="imagem-form" method="post"
+                                  enctype="multipart/form-data">
                                 <div data-toggle="tooltip" data-placement="top" title="{% trans 'Alterar Foto' %}"
                                      class="upload-btn-wrapper">
                                     <i style="font-size: 1.4em; color: #c1c1c1" class="text-muted fa fa-camera"></i>
@@ -27,50 +28,73 @@
                             <logo>{{ perfil.nome }}</logo>
                         </div>
                         <br>
+                        <div class="col-md-12 text-center" style="padding-top: 5%;">
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#desativarConta">
+                                Desativar conta
+                            </button>
+                        </div>
+                        <br>
 
-                         <a style="cursor: pointer" class="action"
-                               param="{{ postagem.id }}"
-                               data-msg="Deseja deletar a postagem '{{ postagem.texto }}' ?"
-                               positive="DeletePostagem"><i
-                                class="fa fa-trash"></i> Desativar Conta</a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="desativarConta" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        <h5 class="modal-title" id="myModalLabel">Descreva um pouco sobre sua decisão de
+                                            desativar sua conta</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea id="justificativa" class="form-control"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnDesativarConta" class="btn btn-danger">Desativar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <ul class="list-group">
-                             <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group-addon">
-                                       <i class="fa fa-briefcase" aria-hidden="true"></i>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-2 text-center">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 text-left">
+                                        Trabalha em {{ perfil.nome_empresa }}
                                     </div>
                                 </div>
-                                <div class="col-md-9 text-left">
-                                    Trabalha em {{ perfil.nome_empresa }}
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row text-center">
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-phone-square" aria-hidden="true"></i>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row text-center">
+                                    <div class="col-md-2 text-center">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-phone-square" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 text-left">
+                                        {{ perfil.telefone }}
                                     </div>
                                 </div>
-                                <div class="col-md-9 text-left">
-                                    {{ perfil.telefone }}
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-2 text-center">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 text-left ">
+                                        {{ perfil.email }}
                                     </div>
                                 </div>
-                                <div class="col-md-9 text-left ">
-                                    {{ perfil.email }}
-                                </div>
-                            </div>
-                        </li>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -90,45 +114,6 @@
 
                 <div class="panel-body">
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingTwo">
-                                <h4 class="panel-title">
-                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                                       href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Alterar Email
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
-                                 aria-labelledby="headingTwo">
-                                <div class="panel-body">
-                                    <form id="altera-email-form" action="#" method="post"
-                                          role="form" style="display: block;">
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            <input type="text" name="email" id="email" tabindex="1"
-                                                   class="form-control" placeholder="Email" value="">
-                                        </div>
-
-
-                                        {% if form.erros %}
-
-                                        {% endif %}
-
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-sm-6 col-sm-offset-3">
-                                                    <input type="submit" name="login-submit" id="altera-email-submit"
-                                                           tabindex="4"
-                                                           class="form-control btn btn-submit" value="Entrar">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="headingThree">
@@ -245,5 +230,27 @@
                 $("#label-upload-foto").text("Arquivo inválido, procure uma imagem")
             }
         })
+
+        $("#btnDesativarConta").click(function () {
+            console.log("entrou")
+            var url = API_BASE + 'perfil/desativar-conta/'
+            var text = $("#justificativa").val();
+            $.ajax({
+                type: 'POST',
+                url: url,
+                headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+                dataType : "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({texto: text}),
+                success: function (data) {
+                    alert(data.msg)
+                    top.location.href = "/logout/"
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+        })
+
     </script>
 {% endblock %}

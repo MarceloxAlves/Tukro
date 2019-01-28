@@ -66,7 +66,7 @@ class LoginView(TemplateView):
             if len(users) > 0:
                 user =  users[0]
                 if not user.is_active:
-                    return render(request, 'reativar_conta.html')
+                    return render(request, 'reativar_conta.html', {"inativo": user })
 
         return render(request, self.template_name)
 
