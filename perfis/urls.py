@@ -27,6 +27,7 @@ urlpatterns = [
     path('change-password/', login_required(views_usuario.ChangePasswordView.as_view()), name='change_password'),
     path('<int:perfil_id>', views.exibir_perfil, name='exibir'),
     path('meu-perfil/', views.exibir_meu_perfil, name='exibir_meu_perfil'),
+    path('desativar/', views.desativar_perfil, name='desativar_perfil'),
     path('<int:perfil_id>/convidar', views.convidar, name='convidar'),
     path('<int:perfil_id>/desfazer', views.desfazer_amizade, name='desfazer'),
     path('<int:perfil_id>/bloquear', views.bloquear_usuario, name='bloquear'),

@@ -69,6 +69,14 @@ def bloquear_usuario(request, perfil_id):
     return redirect('index')
 
 
+def desativar_perfil(request):
+    usuario_logado = get_perfil_logado(request)
+    usuario_logado.is_active = False
+    usuario_logado.save()
+
+    return redirect('index')
+
+
 @login_required
 def prover_rebaixar(request, id):
     perfil = Perfil.objects.get(id=id)
