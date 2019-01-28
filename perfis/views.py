@@ -15,26 +15,29 @@ class HomeView(View):
 
     def get(self, request):
         contexto = {
-            'perfis': self.get_perfis(),
+            'perfis': self.get_perfis(request),
             'postagens': request.user.perfil.get_postagens(),
             'privacidades': Postagem.PRIVACIDADES,
         }
+        if request.user.is_superuser == True:
+            self.template_name = 'index_admin.html'
+
         return render(request, self.template_name, contexto)
 
     def post(self, request):
-        texto = request.POST["texto"];
-        privacidade = request.POST["privacidade"];
-        imagem = request.FILES.get("imagem", None);
+        texto = request.POST["texto"]
+        privacidade = request.POST["privacidade"]
+        imagem = request.FILES.get("imagem", None)
         usuario = request.user
         postagem = Postagem(texto=texto, perfil=usuario.perfil, privacidade=privacidade, imagem=imagem)
         postagem.save()
         return redirect('index')
 
-    def get_perfis(self):
-        return Perfil.objects.all();
+    def get_perfis(self, request):
+        return Perfil.objects.all().exclude(usuario=get_perfil_logado(request))
 
     def get_postagens(self, request):
-        return Postagem.objects.filter(perfil=request.user.perfil);
+        return Postagem.objects.filter(perfil=request.user.perfil)
 
 
 @login_required

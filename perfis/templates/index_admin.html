@@ -10,7 +10,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
+                        <img src="{{ user.perfil.imagem.url }}" class="img-circle" width="80">
                     </div>
                 </div>
                 <div class="row">
@@ -21,8 +21,53 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <logo>Grupos & Hashtags</logo>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                #Reveillon2019
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/icon_group.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                Os Mutantes !
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                #AbreuFolia
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
     </div>
 
 
@@ -62,17 +107,17 @@
         <div class="panel panel-default">
             {% with total=user.perfil.contatos.count %}
             {% if total %}
-            <div class="panel-heading">
-                <strong> {{ total }}
+           <div class="panel-heading">
+                <logo> {{ total }}
                     Amigo{{ total|pluralize }}
-                </strong>
+                </logo>
             </div>
             <ul class="list-group">
                 {% for perfil in user.perfil.contatos.all %}
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-md-12">
-                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                            <img src="{{ perfil.imagem.url }}" class="img-circle" width="30">
                             <a href="{% url 'exibir' perfil.id %}"
                                style="display:inline-block; padding: 2%;">
                                 {{ perfil }}
@@ -94,7 +139,7 @@
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                Perfis cadastrados:
+                <logo> Perfis cadastrados: </logo>
             </div>
             <ul class="list-group">
                 {% for perfil in perfis %}
@@ -102,7 +147,7 @@
 
                     <div class="row">
                         <div class="col-md-8">
-                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                            <img src="{{ perfil.imagem.url }}" class="img-circle" width="30">
                             <a href="{% url 'exibir' perfil.id %}">
                                 {{ perfil.nome }}
                             </a>
@@ -118,8 +163,9 @@
 
             {% if total %}
             <div class="panel-heading">
-                <strong> {{ total }}
-                    Convite{{ total|pluralize }} aguardando aprovação</strong>
+                <logo> {{ total }}
+                    Convite{{ total|pluralize }} aguardando
+                </logo>
             </div>
             <ul class="list-group">
                 {% for convite in user.perfil.convites_recebidos.all %}
@@ -127,7 +173,7 @@
 
                     <div class="row">
                         <div class="col-md-8">
-                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="30">
+                            <img src="{{ convite.solicitante.imagem.url }}" class="img-circle" width="30">
                             <a href="{% url 'exibir' convite.solicitante.id %}">
                                 {{ convite.solicitante.nome }}
                             </a>

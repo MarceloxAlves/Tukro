@@ -2,49 +2,111 @@
 {% load static %}
 {% block body %}
 
-    <div class="row" style="margin-bottom: 100px;">
-        <div class="col-md-3 sidebar-left">
-            <div class="panel panel-default">
+<div class="row" style="margin-bottom: 100px;">
+    <div class="col-md-3 sidebar-left">
+        <div class="panel panel-default">
 
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <img src="{% static 'img/photo.jpg' %}" class="img-circle" width="80">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 text-center" style="padding-top: 5%;">
-                            <logo>
-                                <a href="{% url 'exibir_meu_perfil' %}">{{ user.perfil.nome }}</a>
-                            </logo>
-                        </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="{{ user.perfil.imagem.url }}" class="img-circle" width="80">
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-md-12 text-center" style="padding-top: 5%;">
+                        <logo>
+                            <a href="{% url 'exibir_meu_perfil' %}">{{ user.perfil.nome }}</a>
+                        </logo>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-9 ">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Resultado da Pesquisa
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <logo>Grupos & Hashtags</logo>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    {% if resultado %}
-                        <ul class="list-group">
-                            {% for perfil in resultado %}
-                                <li class="list-group-item">
-                                    <a href="{% url 'exibir' perfil.id %}">    {{ perfil.nome }} / {{ perfil.email }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p class="text-muted">Nenhum resultado encontrado</p>
-                    {% endif %}
-                </div>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                #Reveillon2019
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/icon_group.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                Os Mutantes !
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
+                            <a href="#"
+                               style="display:inline-block; padding: 2%;">
+                                #AbreuFolia
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-9 ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <logo> Resultado da Pesquisa</logo>
+            </div>
+            <div class="panel-body">
+                {% if resultado %}
+                <ul class="list-group">
+                    {% for perfil in resultado %}
+                    <li class="list-group-item">
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="col-md-2 text-center">
+                                    <img src="{{ perfil.imagem.url }}" class="img-circle" width="60">
+                                </div>
+                                <div class="col-md-10">
+                                    <logo>
+                                        <a href="{% url 'exibir' perfil.id %}">
+                                            {{ perfil.nome }}
+                                        </a>
+                                    </logo>
+                                    <br>
+                                    <span style="font-size: 10pt; font-family: Comic Sans MS; font-weight: bold;">
+                                        {{ perfil.email }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted">Nenhum resultado encontrado</p>
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
 
-    <script src="{% static 'scripts/home.js' %}"></script>
+<script src="{% static 'scripts/home.js' %}"></script>
 {% endblock %}
