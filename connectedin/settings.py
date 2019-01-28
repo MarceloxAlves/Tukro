@@ -121,7 +121,8 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_WHITELIST  = (
      'localhost: 81' ,
-     '127.0.0.1:81'
+     '127.0.0.1:81',
+     '127.0.0.1:82'
 )
 
 # Internationalization

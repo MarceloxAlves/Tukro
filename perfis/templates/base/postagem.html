@@ -64,7 +64,7 @@
                                                                                     data-content='
                        <div class="emojis">
                        {% for reaction_type in postagem.get_reaction_type %}
-                           <i style="color:{{ reaction_type.color }}" onclick="reaction({{ postagem.id }}, {{ reaction_type.id }})" class="emoji animated infinite  slow {{ reaction_type.animation }} {{ reaction_type.icon }}"></i>
+                           <i  style=" color:{{ reaction_type.color }}" onclick="reaction({{ postagem.id }}, {{ reaction_type.id }})" class="emoji animated infinite  slow {{ reaction_type.animation }} {{ reaction_type.icon }}"></i>
                        {% endfor %}
 
                        </div>
@@ -77,7 +77,7 @@
                                 {% endif %}
                             {% endfor %}
                         {% else %}
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> Gostou
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> Reagir
                         {% endif %}
                     </span></a></li>
                     <li role="presentation"><a href="#"><i class="fa fa-comment" aria-hidden="true"></i> Comentar</a>
@@ -91,5 +91,5 @@
         </div>
     {% endfor %}
 {% else %}
-    <p class="text-muted">Ainda não há postagens relacionadas ao seu perfil</p>
+    <p class="text-muted">Ainda não há postagens relacionadas a este perfil</p>
 {% endif %}
