@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <img  src="{{ perfil.imagem.url }}" class="img-circle my-photo" width="80" height="80">
+                            <img  src="{{ perfil.imagem.url }}" class="img-circle my-photo" width="80" height="80   ">
                             <form style="position: absolute; left: 55%; top:80%" id="imagem-form" method="post" enctype="multipart/form-data">
                                 <div data-toggle="tooltip" data-placement="top" title="{% trans 'Alterar Foto' %}"
                                      class="upload-btn-wrapper">
@@ -20,12 +20,19 @@
                                 </div>
                             </form>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-center" style="padding-top: 5%;">
                             <logo>{{ perfil.nome }}</logo>
                         </div>
                         <br>
+
+                         <a style="cursor: pointer" class="action"
+                               param="{{ postagem.id }}"
+                               data-msg="Deseja deletar a postagem '{{ postagem.texto }}' ?"
+                               positive="DeletePostagem"><i
+                                class="fa fa-trash"></i> Desativar Conta</a>
 
                         <ul class="list-group">
                              <li class="list-group-item">

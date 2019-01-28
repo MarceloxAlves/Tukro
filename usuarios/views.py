@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, _authenticate_with_backend
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
@@ -58,10 +58,16 @@ class LoginView(TemplateView):
 
     def post(self, request):
         user = authenticate(request, username=request.POST['email'], password=request.POST['password'])
-        print(user)
         if user is not None:
             login(request, user=user)
             return redirect('index')
+        else:
+            users = User.objects.filter(email=request.POST['email'])
+            if len(users) > 0:
+                user =  users[0]
+                if not user.is_active:
+                    return render(request, 'reativar_conta.html')
+
         return render(request, self.template_name)
 
 
@@ -73,3 +79,5 @@ class LogoutView(TemplateView):
     def post(self, request):
         logout(request)
         return render(request, self.template_name)
+
+

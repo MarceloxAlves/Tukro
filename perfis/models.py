@@ -129,3 +129,17 @@ class Reaction(models.Model):
 
 class Partilhamento(Postagem):
      post =  models.ForeignKey(Postagem, on_delete=models.CASCADE, related_name='partilhamentos')
+
+class Justificativa(models.Model):
+    texto = models.CharField(max_length=200);
+    user  =  models.ForeignKey(User, on_delete=models.CASCADE, related_name= 'justificativas')
+    data_bloqueio = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['-data_bloqueio']
+
+    @staticmethod
+    def get_justificativa(user):
+        justificativas =  user.justificativas
+        if justificativas:
+            return  justificativas[0]
+        return None

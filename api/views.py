@@ -1,5 +1,5 @@
 from rest_framework import viewsets, status
-from perfis.models import Postagem, Reaction, ReactionType
+from perfis.models import Postagem, Reaction, ReactionType, Justificativa
 from .serializer import PostagemSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
@@ -12,18 +12,6 @@ class PostagemViewSet(viewsets.ViewSet):
         queryset = Postagem.objects.filter(perfil=request.user.perfil)
         serializer = PostagemSerializer(queryset, many=True)
         return Response(serializer.data)
-
-    def create(self, request):
-        pass
-
-    def retrieve(self, request, pk=None):
-        pass
-
-    def update(self, request, pk=None):
-        pass
-
-    def partial_update(self, request, pk=None):
-        pass
 
     def destroy(self, request, pk=None):
         postagem = Postagem.objects.get(id=pk)
@@ -93,6 +81,18 @@ class PerfilViewSet(viewsets.ViewSet):
                 }
             }
         })
+
+
+    def desativar_conta(self, request):
+        user = request.user.perfil
+        justificativa  = Justificativa(user=user, texto=request.POST['texto'])
+        justificativa.save()
+        user.is_active = False;
+        user.save();
+        return Response(status=status.HTTP_200_OK, data={
+            "msg": "usuario desativado"
+        })
+
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
