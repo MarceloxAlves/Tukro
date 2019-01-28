@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import User
 
 
@@ -19,11 +19,13 @@ class Perfil(models.Model):
     def __str__(self):
         return self.nome
 
+    @transaction.atomic
     def convidar(self, perfil_convidado):
         if self.pode_convidar(perfil_convidado):
             convite = Convite(solicitante=self, convidado=perfil_convidado)
             convite.save()
 
+    @transaction.atomic
     def bloquear(self, perfil_bloqueado):
         self.bloqueados.add(perfil_bloqueado)
         self.desfazer_amizade(perfil_bloqueado)
@@ -45,6 +47,7 @@ class Perfil(models.Model):
 
         return {'pode': True}
 
+    @transaction.atomic
     def desfazer_amizade(self, perfil_amigo):
         self.contatos.remove(perfil_amigo)
         perfil_amigo.contatos.remove(self)
@@ -53,11 +56,16 @@ class Perfil(models.Model):
 
     def get_postagens(self):
         postagens = []
-        for post in self.timeline.all():
-            postagens.append(post)
-        for contato in self.contatos.all():
-            for post in contato.timeline.all().exclude(privacidade='PRIVATE'):
+
+        if self.usuario.is_superuser == True:
+            postagens = Postagem.objects.all()
+
+        else:
+            for post in self.timeline.all():
                 postagens.append(post)
+            for contato in self.contatos.all():
+                for post in contato.timeline.all().exclude(privacidade='PRIVATE'):
+                    postagens.append(post)
 
         return sorted(postagens, key=Postagem.get_id, reverse=True)
 
@@ -72,6 +80,7 @@ class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='convites_feitos')
     convidado = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='convites_recebidos')
 
+    @transaction.atomic
     def aceitar(self):
         self.solicitante.contatos.add(self.convidado)
         self.convidado.contatos.add(self.solicitante)
