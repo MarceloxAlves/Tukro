@@ -21,7 +21,7 @@
 
                         </small>
                     </div>
-                    {% if user.id == postagem.perfil.usuario.id %}
+                    {% if user.id == postagem.perfil.usuario.id or user.is_superuser == True %}
                         <div class="col-md-3 text-right">
                         <span class="dropdown">
                         <a href="#" class="btn btn-link dropdown-toggle option" data-toggle="dropdown"
