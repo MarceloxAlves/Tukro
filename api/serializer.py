@@ -20,7 +20,7 @@ class PostagemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Postagem
-        fields = ('data','texto','perfil', 'privacidade', 'imagem')
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem')
 
 
 class JustificativaSerializer(serializers.ModelSerializer):

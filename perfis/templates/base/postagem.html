@@ -1,29 +1,22 @@
 {% load static %}
 <div id="app-postagens">
-    {% for postagem in postagens %}
-        <div class="panel panel-default" id="postagem{{ postagem.id }}">
+        <div v-for="postagem in postagens" class="panel panel-default" :id="postagem[[postagem.id ]]">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-9">
-                        <img style="float: left" src="{{ postagem.perfil.imagem.url }}"
+                        <img style="float: left" :src="[[postagem.perfil.imagem]]"
                              class="img-circle {% if  postagem.perfil == user.perfil %}
                             my-photo
                         {% endif %}"
                              width="40" height="40">
-                        <span style="display:inline-block; padding-top:1%;">&nbsp;{{ postagem.perfil.nome }}</span>
-                        <small style="display: block" class="text-muted">{{ postagem.data }}
-                            {% if postagem.privacidade ==  'PRIVATE' %}
-                                <span class="fa fa-lock" title="{{ postagem.PRIVACIDADES.2.1 }}"></span>
-                            {% elif postagem.privacidade ==  'FRIENDS' %}
-                                <span class="fa fa-group" title="{{ postagem.PRIVACIDADES.1.1 }}"></span>
-                            {% else %}
-                                <span class="fa fa-globe" title="{{ postagem.PRIVACIDADES.0.1 }}"></span>
-                            {% endif %}
-
+                        <span style="display:inline-block; padding-top:1%;">&nbsp;[[postagem.perfil.nome]] </span>
+                        <small style="display: block" class="text-muted">[[ postagem.data ]]
+                                <span v-if="postagem.privacidade == 'PRIVATE'" class="fa fa-lock" title="Somente eu"></span>
+                                <span v-if="postagem.privacidade == 'FRIENDS'"class="fa fa-group" title="Amigos"></span>
+                                <span v-if="postagem.privacidade == 'PUBLIC'" class="fa fa-globe" title="Público"></span>
                         </small>
                     </div>
-                    {% if user.id == postagem.perfil.usuario.id or user.is_superuser == True %}
-                        <div class="col-md-3 text-right">
+                        <div v-if="postagem.perfil.usuario.id == '{{ user.id }}' || postagem.perfil.usuario.is_superuser " class="col-md-3 text-right">
                         <span class="dropdown">
                         <a href="#" class="btn btn-link dropdown-toggle option" data-toggle="dropdown"
                            role="button"
@@ -41,20 +34,17 @@
                     </ul>
                     </span>
                         </div>
-                    {% endif %}
                 </div>
             </div>
             <div class="panel-body">
-                {{ postagem.texto }}
-                {% if postagem.imagem %}
-                    <img style="width: 100%; max-height: 626px;" src="{{ postagem.imagem.url }}"
+                [[ postagem.texto ]]
+                    <img v-if="postagem.imagem  != null " style="width: 100%; max-height: 626px;" :src="[[ postagem.imagem ]]"
                          class="img-fluid" alt="Foto">
-                {% endif %}
             </div>
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-lg-10">
-                        <span class="badge" id="postagem{{ postagem.id }}reaction">{{ postagem.reactions.count }}</span>
+                        <span class="badge" id="postagem[[ postagem.id ]]reaction">{{ postagem.reactions.count }}</span>
                     </div>
                 </div>
                 <ul class="nav nav-pills nav-justified">
@@ -69,7 +59,7 @@
                        {% endfor %}
 
                        </div>
-                        '><span id="container{{ postagem.id }}reaction">
+                        '><span id="container[[ postagem.id ]]reaction">
                         {% if user.perfil in postagem.reactions.all %}
                             {% for reaction in postagem.get_reacoes %}
                                 {% if user.perfil == reaction.perfil %}
@@ -90,135 +80,38 @@
 
             </div>
         </div>
-    {% endfor %}
-    <p class="text-muted">Ainda não há postagens relacionadas a este perfil</p>
+  <div class="col-lg-12 text-center">
+        <a @click="loadPage" v-if="url" class="btn btn-default btn-sm"> Mais postagem</a>
+  </div>
 </div>
-<scrip>
+<script type="text/javascript">
     var appPostagem = new Vue({
             el: '#app-postagens',
+            delimiters: ['[[', ']]'],
             data: {
-                unidadeGestora: 0,
-                logged: false,
-                messages: []
+                postagens: [],
+                scroll: 0,
+                url: '/v1/postagens/',
+                
             },
             created() {
-                let logado = getLogado()
-                if (logado) {
-                    this.logged = true;
-                    this.loadChat();
-                    this.listenerChat();
-                }
-            },
-            mounted() {
-
-            },
-            watch: {
-                messages: function (val) {
-                    console.log(val)
-                }
+                this.loadPage()
             },
             methods: {
-                loadChat() {
-                    let logado = getLogado()
-                    db.collection("users").doc(logado.id).collection("chats").doc(logado.chat).collection("messages").orderBy("data_create")
-                        .onSnapshot(function (doc) {
-                            app.$data.messages = doc.docs;
-                        });
-                },
-                listenerChat() {
-                    let logado = getLogado()
-                    db.collection("users").doc(logado.id).collection("chats").doc(logado.chat)
-                        .onSnapshot(function (doc) {
-                           let data = doc.data();
-                           if(data.atendida == true){
-                               $("#profile").attr('src',data.user_data.foto);
-                               $("#username").text(data.user_data.nome);
-                           }
-                        });
-                },
-                botSend(msg){
-                    let logado = getLogado()
-                    db.collection("users").doc(logado.id).collection("chats").doc(logado.chat).collection('messages').add({
-                        msg: msg,
-                        tipo: 0,
-                        data_create: new Date()
-                    })
-                        .then(function (docRef) {
-                            console.log("Mensagem enviada pot bot: ", docRef.id);
-                        })
-                        .catch(function (error) {
-                            console.error("Erro ao enviar mensagem por bot:", error);
-                        });
-                },
-                onEnviar() {
-                    let logado = getLogado()
-                    db.collection("users").doc(logado.id).collection("chats").doc(logado.chat).collection('messages').add({
-                        msg: $('#text').val(),
-                        tipo: 2,
-                        data_create: new Date()
-                    })
-                        .then(function (docRef) {
-                            $('#text').val("")
-                            $('#text').css("height", "50px")
-                            console.log("Mensagem enviada: ", docRef.id);
-                        })
-                        .catch(function (error) {
-                            console.error("Erro ao enviar mensagem:", error);
-                        });
-                },
-                criarUsuario() {
-                    let logado = getLogado()
-                    db.collection("users").add({
-                        nome: logado.nome,
-                        email: logado.email,
-                        data_create: new Date()
-                    })
-                        .then(function (docRef) {
-                            addUserId(docRef.id)
-                            app.criarChat()
-                            console.log("Usuário Logado com sucesso: ", docRef.id);
-                        })
-                        .catch(function (error) {
-                            console.error("Erro ao criar o documento:", error);
-                        });
-                },
-                criarChat() {
-                    let logado = getLogado()
-                    db.collection("users").doc(logado.id).collection("chats").add({
-                        atendida: false,
-                        usuario: 0,
-                        data_create: new Date()
-                    })
-                        .then(function (docRef) {
-                            addChatID(docRef.id)
-                            app.botSend("Bem vindo ao chat do Diofe aguarde um pouco para que um de nossos operadores lhe atenda ou deixe sua mensagem aqui nesta sala!")
-                            app.loadChat()
-                            app.listenerChat()
-                            console.log("Chat criado com sucesso: ", docRef.id);
-                        })
-                        .catch(function (error) {
-                            console.error("Chat não foi criado", error);
-                        });
-                },
-                onLogar() {
-                    if (is_valid()) {
-                        setLogado({"nome": $('#nome').val(), "email": $('#email').val()});
-                        let email = $('#email').val();
-                        db.collection("users").where("email", "==", email).get().then(function (querySnapshot) {
+                loadPage(){
+                    if (this.url != null){
+                        axios.get(this.url)
+                        .then(response => {
+                            let data = response.data
+                            console.log(data.results);
+                            this.url = data.next
+                            this.postagens = this.postagens.concat(data.results)
+                            console.log(this.postagens)
+                        }, (error) => {
 
-                            if (querySnapshot.empty) {
-                                app.criarUsuario()
-                            } else {
-                                let userRef = querySnapshot.docs[0].ref
-                                addUserID(userRef.id)
-                                app.criarChat()
-                            }
-                        });
-                        $("#chat-auth").hide()
-                        $("#chat-msg").show(100)
+                        })
                     }
                 }
-
             }
         })
-</scrip>
+</script>
