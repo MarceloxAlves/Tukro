@@ -1,11 +1,12 @@
 {% load static %}
-{% if postagens %}
+<div id="app-postagens">
     {% for postagem in postagens %}
         <div class="panel panel-default" id="postagem{{ postagem.id }}">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-9">
-                        <img style="float: left" src="{{ postagem.perfil.imagem.url }}" class="img-circle {% if  postagem.perfil == user.perfil%}
+                        <img style="float: left" src="{{ postagem.perfil.imagem.url }}"
+                             class="img-circle {% if  postagem.perfil == user.perfil %}
                             my-photo
                         {% endif %}"
                              width="40" height="40">
@@ -21,7 +22,7 @@
 
                         </small>
                     </div>
-                    {% if user.id == postagem.perfil.usuario.id or user.is_superuser == true %}
+                    {% if user.id == postagem.perfil.usuario.id or user.is_superuser == True %}
                         <div class="col-md-3 text-right">
                         <span class="dropdown">
                         <a href="#" class="btn btn-link dropdown-toggle option" data-toggle="dropdown"
@@ -90,6 +91,134 @@
             </div>
         </div>
     {% endfor %}
-{% else %}
     <p class="text-muted">Ainda não há postagens relacionadas a este perfil</p>
-{% endif %}
+</div>
+<scrip>
+    var appPostagem = new Vue({
+            el: '#app-postagens',
+            data: {
+                unidadeGestora: 0,
+                logged: false,
+                messages: []
+            },
+            created() {
+                let logado = getLogado()
+                if (logado) {
+                    this.logged = true;
+                    this.loadChat();
+                    this.listenerChat();
+                }
+            },
+            mounted() {
+
+            },
+            watch: {
+                messages: function (val) {
+                    console.log(val)
+                }
+            },
+            methods: {
+                loadChat() {
+                    let logado = getLogado()
+                    db.collection("users").doc(logado.id).collection("chats").doc(logado.chat).collection("messages").orderBy("data_create")
+                        .onSnapshot(function (doc) {
+                            app.$data.messages = doc.docs;
+                        });
+                },
+                listenerChat() {
+                    let logado = getLogado()
+                    db.collection("users").doc(logado.id).collection("chats").doc(logado.chat)
+                        .onSnapshot(function (doc) {
+                           let data = doc.data();
+                           if(data.atendida == true){
+                               $("#profile").attr('src',data.user_data.foto);
+                               $("#username").text(data.user_data.nome);
+                           }
+                        });
+                },
+                botSend(msg){
+                    let logado = getLogado()
+                    db.collection("users").doc(logado.id).collection("chats").doc(logado.chat).collection('messages').add({
+                        msg: msg,
+                        tipo: 0,
+                        data_create: new Date()
+                    })
+                        .then(function (docRef) {
+                            console.log("Mensagem enviada pot bot: ", docRef.id);
+                        })
+                        .catch(function (error) {
+                            console.error("Erro ao enviar mensagem por bot:", error);
+                        });
+                },
+                onEnviar() {
+                    let logado = getLogado()
+                    db.collection("users").doc(logado.id).collection("chats").doc(logado.chat).collection('messages').add({
+                        msg: $('#text').val(),
+                        tipo: 2,
+                        data_create: new Date()
+                    })
+                        .then(function (docRef) {
+                            $('#text').val("")
+                            $('#text').css("height", "50px")
+                            console.log("Mensagem enviada: ", docRef.id);
+                        })
+                        .catch(function (error) {
+                            console.error("Erro ao enviar mensagem:", error);
+                        });
+                },
+                criarUsuario() {
+                    let logado = getLogado()
+                    db.collection("users").add({
+                        nome: logado.nome,
+                        email: logado.email,
+                        data_create: new Date()
+                    })
+                        .then(function (docRef) {
+                            addUserId(docRef.id)
+                            app.criarChat()
+                            console.log("Usuário Logado com sucesso: ", docRef.id);
+                        })
+                        .catch(function (error) {
+                            console.error("Erro ao criar o documento:", error);
+                        });
+                },
+                criarChat() {
+                    let logado = getLogado()
+                    db.collection("users").doc(logado.id).collection("chats").add({
+                        atendida: false,
+                        usuario: 0,
+                        data_create: new Date()
+                    })
+                        .then(function (docRef) {
+                            addChatID(docRef.id)
+                            app.botSend("Bem vindo ao chat do Diofe aguarde um pouco para que um de nossos operadores lhe atenda ou deixe sua mensagem aqui nesta sala!")
+                            app.loadChat()
+                            app.listenerChat()
+                            console.log("Chat criado com sucesso: ", docRef.id);
+                        })
+                        .catch(function (error) {
+                            console.error("Chat não foi criado", error);
+                        });
+                },
+                onLogar() {
+                    if (is_valid()) {
+                        setLogado({"nome": $('#nome').val(), "email": $('#email').val()});
+                        let email = $('#email').val();
+                        db.collection("users").where("email", "==", email).get().then(function (querySnapshot) {
+
+                            if (querySnapshot.empty) {
+                                app.criarUsuario()
+                            } else {
+                                let userRef = querySnapshot.docs[0].ref
+                                addUserID(userRef.id)
+                                app.criarChat()
+                            }
+                        });
+                        $("#chat-auth").hide()
+                        $("#chat-msg").show(100)
+                    }
+                }
+
+            }
+        })
+</scrip>

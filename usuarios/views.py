@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, _authenticate_with_backend
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User

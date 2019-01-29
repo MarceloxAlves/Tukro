@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
+from rest_framework.pagination import PageNumberPagination
+
 from perfis.models import Postagem, Reaction, ReactionType, Justificativa
 from .serializer import PostagemSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -7,12 +9,30 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 
 
-class PostagemViewSet(viewsets.ViewSet):
+class PostagemRecordsView(generics.ListAPIView):
+
+    serializer_class = PostagemSerializer
+    pagination_class = PageNumberPagination
+    def get_queryset(self):
+        return  self.request.user.perfil.get_postagens()
+
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def get_authenticators(self):
+        authentication_classes = [SessionAuthentication]
+        return [auth() for auth in authentication_classes]
+
+
+
+class PostagemViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
-        queryset = Postagem.objects.filter(perfil=request.user.perfil)
+        queryset = request.user.perfil.get_postagens()
         serializer = PostagemSerializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response(PageNumberPagination(serializer.data))
 
     def destroy(self, request, pk=None):
         postagem = Postagem.objects.get(id=pk)
@@ -26,6 +46,7 @@ class PostagemViewSet(viewsets.ViewSet):
     def get_authenticators(self):
         authentication_classes = [SessionAuthentication]
         return [auth() for auth in authentication_classes]
+
 
 
 class PostagemReacao(viewsets.ViewSet):
