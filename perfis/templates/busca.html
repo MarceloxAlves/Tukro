@@ -81,20 +81,39 @@
 
                         <div class="row">
                             <div class="col-md-8">
-                                <div class="col-md-2 text-center">
-                                    <img src="{{ perfil.imagem.url }}" class="img-circle" width="60">
-                                </div>
-                                <div class="col-md-10">
-                                    <logo>
-                                        <a href="{% url 'exibir' perfil.id %}">
-                                            {{ perfil.nome }}
-                                        </a>
-                                    </logo>
-                                    <br>
-                                    <span style="font-size: 10pt; font-family: Comic Sans MS; font-weight: bold;">
-                                        {{ perfil.email }}
-                                    </span>
-                                </div>
+                                {% if not perfil.usuario.is_active %}
+                                    <div class="col-md-2 text-center" style="opacity: 0.5">
+                                        <img src="{{ perfil.imagem.url }}" class="img-circle" width="60">
+                                    </div>
+                                    <div class="col-md-10" style="opacity: 0.5">
+                                        <logo>
+                                            <a href="{% url 'exibir' perfil.id %}">
+                                                {{ perfil.nome }}
+                                            </a>
+                                        </logo>
+                                        <br>
+                                            <span style="font-size: 10pt;">usuário inativo</span>
+                                            <br>
+                                        <span style="font-size: 10pt; font-family: Comic Sans MS; font-weight: bold;">
+                                            {{ perfil.email }}
+                                        </span>
+                                    </div>
+                                {% else %}
+                                    <div class="col-md-2 text-center">
+                                        <img src="{{ perfil.imagem.url }}" class="img-circle" width="60">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <logo>
+                                            <a href="{% url 'exibir' perfil.id %}">
+                                                {{ perfil.nome }}
+                                            </a>
+                                        </logo>
+                                        <br>
+                                        <span style="font-size: 10pt; font-family: Comic Sans MS; font-weight: bold;">
+                                            {{ perfil.email }}
+                                        </span>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </li>
