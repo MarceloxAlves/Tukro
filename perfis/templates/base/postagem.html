@@ -1,6 +1,6 @@
 {% load static %}
 <div id="app-postagens">
-        <div v-for="postagem in postagens" class="panel panel-default" :id="postagem[[postagem.id ]]">
+        <div v-for="postagem in postagens" class="panel panel-default" :id="'postagem' + postagem.id">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-9">
@@ -16,6 +16,7 @@
                                 <span v-if="postagem.privacidade == 'PUBLIC'" class="fa fa-globe" title="Público"></span>
                         </small>
                     </div>
+
                         <div v-if="postagem.perfil.usuario.id == '{{ user.id }}' || postagem.perfil.usuario.is_superuser " class="col-md-3 text-right">
                         <span class="dropdown">
                         <a href="#" class="btn btn-link dropdown-toggle option" data-toggle="dropdown"
@@ -24,10 +25,10 @@
                            aria-expanded="false"><span
                                 class="fa fa-ellipsis-v"></span></a>
                         <ul class="dropdown-menu text-left">
-
-                        <li><a style="cursor: pointer" class="action"
-                               param="{{ postagem.id }}"
-                               data-msg="Deseja deletar a postagem '{{ postagem.texto }}' ?"
+                        <li><a  style="cursor: pointer"
+                                class="action"
+                               @click="deletePost(postagem.id)"
+                               data-msg="Deseja deletar a postagem?"
                                positive="DeletePostagem"><i
                                 class="fa fa-trash"></i> Deletar</a></li>
 
@@ -44,7 +45,7 @@
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-lg-10">
-                        <span class="badge" id="postagem[[ postagem.id ]]reaction">{{ postagem.reactions.count }}</span>
+                        <span class="badge" id="postagem[[ postagem.id ]]reaction">0</span>
                     </div>
                 </div>
                 <ul class="nav nav-pills nav-justified">
@@ -92,7 +93,7 @@
                 postagens: [],
                 scroll: 0,
                 url: '/v1/postagens/',
-                
+
             },
             created() {
                 this.loadPage()
@@ -111,7 +112,17 @@
 
                         })
                     }
+                },
+                deletePost(id){
+                   var r = confirm("Deseja realmente deletar esta postagem");
+                    if (r == true) {
+                        DeletePostagem(id)
+                    } else {
+
+                    }
                 }
+
             }
         })
+
 </script>

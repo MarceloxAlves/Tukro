@@ -17,6 +17,8 @@ class PerfilSerializer(serializers.ModelSerializer):
 
 class PostagemSerializer(serializers.ModelSerializer):
     perfil = PerfilSerializer(read_only=True)
+    data = serializers.DateTimeField(format="%d-%m-%Y %H:%M")
+
 
     class Meta:
         model = Postagem

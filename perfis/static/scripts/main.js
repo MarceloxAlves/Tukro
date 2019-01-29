@@ -3,7 +3,7 @@ var modalConfirm = function(callback, action, param){
   $(".action").on("click", function(){
       action = $(this)
       $("#msg-confirm").text(action.attr('data-msg'))
-    $("#mi-modal").modal('show');
+      $("#mi-modal").modal('show');
   });
 
   $("#modal-btn-sim").on("click", function(){
@@ -19,6 +19,11 @@ var modalConfirm = function(callback, action, param){
 modalConfirm(function(action, param){
    window[action](param);
 });
+
+
+
+
+
 
 var msgFeedback = function(callback, actionFeedback){
   var actionFeedback = null

@@ -27,7 +27,7 @@ class PostagemRecordsView(generics.ListAPIView):
 
 
 
-class PostagemViewSet(viewsets.ModelViewSet):
+class PostagemViewSet(viewsets.ViewSet):
 
     def list(self, request):
         queryset = request.user.perfil.get_postagens()
