@@ -160,6 +160,10 @@
                         </div>
                         <div class="col-md-4 text-center">
                             <a href="{% url 'aceitar' convite.id %}" class=""><span
+                                    class="actionFeedback"
+                                    data-msg="Convite aceito"
+                                    param="1"
+                                    data-type-alert="alert-success"
                                     class="label label-success">Aceitar</span></a>
                             <a href="{% url 'recusar' convite.id %}" class=""><span
                                     class="label label-danger">Recusar</span></a>

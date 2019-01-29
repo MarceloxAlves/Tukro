@@ -19,3 +19,17 @@ var modalConfirm = function(callback, action, param){
 modalConfirm(function(action, param){
    window[action](param);
 });
+
+var msgFeedback = function(callback, actionFeedback){
+  var actionFeedback = null
+  $(".actionFeedback").on("click", function(){
+      actionFeedback = $(this)
+      $("#msg-body").text(actionFeedback.attr('data-msg'))
+      $("#feedback-msg").addClass(actionFeedback.attr('data-type-alert'))
+    $("#feedback-msg").css('display', 'block');
+  });
+
+};
+msgFeedback(function(actionFeedback){
+   window[actionFeedback]();
+});
