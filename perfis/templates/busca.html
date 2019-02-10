@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block body %}
 
 <div class="row" style="margin-bottom: 100px;">
@@ -71,7 +72,7 @@
     <div class="col-md-9 ">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <logo> Resultado da Pesquisa</logo>
+                <logo>{% trans 'Resultado da Pesquisa' %} </logo>
             </div>
             <div class="panel-body">
                 {% if resultado %}
@@ -120,7 +121,7 @@
                     {% endfor %}
                 </ul>
                 {% else %}
-                <p class="text-muted">Nenhum resultado encontrado</p>
+                <p class="text-muted">{% trans 'Nenhum resultado encontrado' %}</p>
                 {% endif %}
             </div>
         </div>

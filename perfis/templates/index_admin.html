@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% load static %}
 {% block body %}
 
@@ -76,7 +76,7 @@
                 {% csrf_token %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Publicações</h3>
+                        <h3 class="panel-title">{% trans 'Publicações' %}</h3>
                     </div>
                     <div class="panel-body">
                      <textarea name="texto" required class="form-control input-postagem" rows="2"
@@ -84,7 +84,7 @@
                         <div class="row-divider">
                             <div class="col-lg-12">
                                 <div class="upload-btn-wrapper">
-                                    <a class="btn btn-anexo"><i class="text-muted fa fa-image"> Foto</i></a>
+                                    <a class="btn btn-anexo"><i class="text-muted fa fa-image">{% trans 'Foto' %} </i></a>
                                     <input style="cursor: pointer" type="file" id="upload-foto" name="imagem"/>
                                     <i class="text-muted" id="label-upload-foto"></i>
                                 </div>
@@ -101,7 +101,7 @@
                                 </select>
                             </div>
                             <div class="col-lg-9 text-right">
-                                <input type="submit" class="btn btn-sm btn-primary" value="Partilhar">
+                                <input type="submit" class="btn btn-sm btn-primary" value="{% trans 'Partilhar' %}">
                             </div>
                         </div>
 
@@ -118,7 +118,7 @@
                     {% if total %}
                         <div class="panel-heading">
                             <logo> {{ total }}
-                                Amigo{{ total|pluralize }}
+                                {% trans 'Amigo' %}{{ total|pluralize }}
                             </logo>
                         </div>
                         <ul class="list-group">
@@ -138,7 +138,7 @@
                         </ul>
                     {% else %}
                         <div class="panel-body text-muted">
-                            <p>Não há amigos :(</p>
+                            <p>{% trans 'Não há amigos' %} :(</p>
                             <p class="text-center"><a class="btn btn-primary btn-sm">Convidar amigo</a></p>
                         </div>
                     {% endif %}
@@ -148,7 +148,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    <logo> Perfis cadastrados:</logo>
+                    <logo>{% trans 'Perfis cadastrados:' %} </logo>
                 </div>
                 <ul class="list-group">
                     {% for perfil in perfis %}
@@ -173,7 +173,7 @@
                     {% if total %}
                         <div class="panel-heading">
                             <logo> {{ total }}
-                                Convite{{ total|pluralize }} aguardando
+                                {% trans 'Convite' %}{{ total|pluralize }} {% trans 'aguardando' %}
                             </logo>
                         </div>
                         <ul class="list-group">
@@ -189,9 +189,9 @@
                                             </a>
                                         </div>
                                         <div class="col-md-4 text-center">
-                                            <a href="{% url 'aceitar' convite.id %}" class="">Aceitar</a>
+                                            <a href="{% url 'aceitar' convite.id %}" class="">{% trans 'Aceitar' %}</a>
 
-                                            <a href="{% url 'recusar' convite.id %}" class="">Recusar</a>
+                                            <a href="{% url 'recusar' convite.id %}" class="">{% trans 'Recusar' %}</a>
                                         </div>
                                     </div>
                                 </li>
@@ -200,7 +200,7 @@
 
                     {% else %}
                         <div class="panel-body">
-                            Não há convites
+                            {% trans 'Não há convites' %}
                         </div>
                     {% endif %}
                 {% endwith %}

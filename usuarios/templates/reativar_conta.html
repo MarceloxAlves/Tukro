@@ -1,5 +1,6 @@
 {% extends 'base_home.html' %}
 {% load staticfiles %}
+{% load i18n %}
 {% block content %}
     <div class="row">
         <div class="col-md-12 ">
@@ -9,7 +10,8 @@
                         <br>
                         <div class="col-xs-12">
                             <a href="#" class="active" id="login-form-link">
-                                <p>Conta Inativa</p>
+                                <p>
+                                    {% trans "Conta Inativa" %}</p>
                             </a>
                             <p class="text-muted">Em: {{ inativo.perfil.get_justificativa.data_bloqueio }}</p>
 
@@ -25,7 +27,8 @@
                             <logo>{{ inativo.perfil.nome }}</logo>
                             <p><b>Motivo:</b> {{ inativo.perfil.get_justificativa.texto }}</p>
                             <br>
-                            <a tabindex="4" id="btnAtivarConta"  class="btn btn-success">Ativar</a>
+                            <a tabindex="4" id="btnAtivarConta"  class="btn btn-success">
+                                {% trans "Ativar" %}</a>
                         </div>
                     </div>
                 </div>

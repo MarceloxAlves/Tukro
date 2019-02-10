@@ -31,7 +31,7 @@
                         <div class="col-md-12 text-center" style="padding-top: 5%;">
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#desativarConta">
-                                Desativar conta
+                               {% trans 'Desativar conta' %}
                             </button>
                         </div>
                         <br>
@@ -44,14 +44,13 @@
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span></button>
-                                        <h5 class="modal-title" id="myModalLabel">Descreva um pouco sobre sua decisão de
-                                            desativar sua conta</h5>
+                                        <h5 class="modal-title" id="myModalLabel">{% trans 'Descreva um pouco sobre sua decisão de desativar sua conta' %}</h5>
                                     </div>
                                     <div class="modal-body">
                                         <textarea id="justificativa" class="form-control"></textarea>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" id="btnDesativarConta" class="btn btn-danger">Desativar
+                                        <button type="button" id="btnDesativarConta" class="btn btn-danger">{% trans 'Desativar' %}
                                         </button>
                                     </div>
                                 </div>
@@ -67,7 +66,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-9 text-left">
-                                        Trabalha em {{ perfil.nome_empresa }}
+                                      {% trans ' Trabalha em ' %} {{ perfil.nome_empresa }}
                                     </div>
                                 </div>
                             </li>
@@ -109,7 +108,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <logo>Minha conta</logo>
+                    <logo>{% trans 'Minha conta' %}</logo>
                 </div>
 
                 <div class="panel-body">
@@ -120,7 +119,7 @@
                                 <h4 class="panel-title">
                                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
                                        href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        Alterar Senha
+                                       {% trans ' Alterar Senha' %}
                                     </a>
                                 </h4>
                             </div>
@@ -132,18 +131,18 @@
                                         {% csrf_token %}
                                         <div class="form-group">
                                             <input type="password" name="old_password" id="old_password" tabindex="2"
-                                                   class="form-control" placeholder="Senha atual: ">
+                                                   class="form-control" placeholder="{% trans 'Senha atual' %}">
                                         </div>
 
                                         <div class="form-group">
                                             <input type="password" name="new_password1" id="new_password1" tabindex="2"
-                                                   class="form-control" placeholder="Nova senha:">
+                                                   class="form-control" placeholder="{% trans 'Nova senha' %}">
                                         </div>
 
                                         <div class="form-group">
                                             <input type="password" name="new_password2" id="new_password2"
                                                    tabindex="2"
-                                                   class="form-control" placeholder="Confirme a nova senha:">
+                                                   class="form-control" placeholder="{% trans 'Confirme a nova senha:' %}">
                                         </div>
                                         {% if form.errors %}
                                             {% for field in form %}
@@ -179,7 +178,7 @@
                                 <h4 class="panel-title">
                                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
                                        href="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
-                                        Alterar Email
+                                       {% trans 'Alterar Email' %}
                                     </a>
                                 </h4>
                             </div>
@@ -189,7 +188,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-sm-offset-2">
                                             <a href="{% url 'desativar_perfil' %}" class="btn btn-danger">
-                                                Desativar conta
+                                                {% trans 'Desativar conta' %}
                                             </a>
                                         </div>
                                     </div>

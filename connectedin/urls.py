@@ -23,6 +23,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
     path('v1/', include('api.urls'), name='api'),
     path('perfil/', include('perfis.urls'), name='perfil'),
     path('', include('usuarios.urls'), name='usuario'),

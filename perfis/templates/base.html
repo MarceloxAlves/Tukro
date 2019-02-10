@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load static i18n %}
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -18,6 +19,14 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
 
+    <!-- SnackbarJS plugin -->
+    <script src="https://cdn.rawgit.com/FezVrasta/snackbarjs/1.1.0/dist/snackbar.min.js"></script>
+
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script >
+      $('body').bootstrapMaterialDesign();
+    </script>
+
 </head>
 <body>
 
@@ -26,14 +35,17 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Confirma</h5>
+                <h5 class="modal-title" id="exampleModalLabel">
+                    {% trans "Confirma" %}</h5>
             </div>
             <div class="modal-body" id="msg-confirm">
 
             </div>
             <div class="modal-footer">
-                <button type="button" id="modal-btn-nao" class="btn btn-danger" data-dismiss="modal">Não</button>
-                <button type="button" id="modal-btn-sim" class="btn btn-success">Sim</button>
+                <button type="button" id="modal-btn-nao" class="btn btn-danger" data-dismiss="modal">
+                    {% trans "Não" %}</button>
+                <button type="button" id="modal-btn-sim" class="btn btn-success">
+                    {% trans "Sim" %}</button>
             </div>
         </div>
     </div>
@@ -62,10 +74,11 @@
                                                    width="30" height="30"> {{ user.perfil.nome }} <span
                             class="fa fa-caret-down"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'exibir_meu_perfil' %}"><i class="fa fa-user"></i> Perfil</a>
+                        <li><a href="{% url 'exibir_meu_perfil' %}"><i class="fa fa-user"></i>
+                            {% trans "Perfil" %}</a>
                         </li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Sair</a></li>
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> {% trans "Sair" %} </a></li>
                     </ul>
                 </li>
             </ul>

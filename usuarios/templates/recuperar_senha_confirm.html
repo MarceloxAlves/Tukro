@@ -1,6 +1,5 @@
 {% extends 'base_home.html' %}
-{% load i18n static %}
-
+{% load i18n %}
 {% block content %}
 <div class="row">
     <div class="col-md-12 ">
@@ -8,7 +7,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-12">
-                        <a href="#" class="active" id="login-form-link">Digite a nova senha</a>
+                        <a href="#" class="active" id="login-form-link">{% trans "Digite a nova senha" %}</a>
                     </div>
                 </div>
                 <hr>
@@ -20,8 +19,8 @@
                         {% if validlink %}
 
                         <p>
-                            Por favor, informe sua nova senha duas vezes para que possamos verificar se você a digitou
-                            corretamente.
+                            {% trans "Por favor, informe sua nova senha duas vezes para que possamos verificar se você a digitou
+                            corretamente." %}
                         </p>
 
                         <form method="post">{% csrf_token %}
@@ -58,8 +57,8 @@
 
                         {% else %}
                         <p align="justify">
-                            O link de redefinição de senha era inválido, possivelmente porque já foi usado.
-                            Por favor, solicite uma nova redefinição de senha.
+                            {% trans "O link de redefinição de senha era inválido, possivelmente porque já foi usado.
+                            Por favor, solicite uma nova redefinição de senha." %}
                         </p>
                         {% endif %}
                     </div>

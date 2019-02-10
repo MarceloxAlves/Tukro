@@ -1,5 +1,6 @@
 {% extends 'base_home.html' %}
 {% load staticfiles %}
+{% load i18n %}
 {% block content %}
 <div class="row">
     <div class="col-md-12 ">
@@ -9,7 +10,9 @@
                     <br>
                     <div class="col-xs-12">
                         <a href="#" class="active" id="login-form-link">
-                            <p>Recuperar Senha</p>
+                            <p>
+                                {% trans "Recuperar Senha" %}
+                            </p>
                         </a>
                     </div>
                 </div>
@@ -34,7 +37,8 @@
                                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">
                                     &times;
                                 </button>
-                                Por favor, verifique o Email e/ou Senha informados
+                                {% trans "Por favor, verifique o Email e/ou Senha informados" %}
+
                             </div>
                             {% endif %}
 

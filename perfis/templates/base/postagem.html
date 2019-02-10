@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <div id="app-postagens">
         <div v-for="postagem in postagens" class="panel panel-default" :id="'postagem' + postagem.id">
             <div class="panel-heading">
@@ -11,9 +12,9 @@
                              width="40" height="40">
                         <span style="display:inline-block; padding-top:1%;">&nbsp;[[postagem.perfil.nome]] </span>
                         <small style="display: block" class="text-muted">[[ postagem.data ]]
-                                <span v-if="postagem.privacidade == 'PRIVATE'" class="fa fa-lock" title="Somente eu"></span>
-                                <span v-if="postagem.privacidade == 'FRIENDS'"class="fa fa-group" title="Amigos"></span>
-                                <span v-if="postagem.privacidade == 'PUBLIC'" class="fa fa-globe" title="Público"></span>
+                                <span v-if="postagem.privacidade == 'PRIVATE'" class="fa fa-lock" title="{% trans 'Somente eu' %}"></span>
+                                <span v-if="postagem.privacidade == 'FRIENDS'"class="fa fa-group" title="{% trans 'Amigos' %}"></span>
+                                <span v-if="postagem.privacidade == 'PUBLIC'" class="fa fa-globe" title="{% trans 'Público' %}"></span>
                         </small>
                     </div>
 
@@ -30,7 +31,7 @@
                                @click="deletePost(postagem.id)"
                                data-msg="Deseja deletar a postagem?"
                                positive="DeletePostagem"><i
-                                class="fa fa-trash"></i> Deletar</a></li>
+                                class="fa fa-trash"></i>{% trans 'Deletar' %} </a></li>
 
                     </ul>
                     </span>
@@ -40,7 +41,7 @@
             <div class="panel-body">
                 [[ postagem.texto ]]
                     <img v-if="postagem.imagem  != null " style="width: 100%; max-height: 626px;" :src="[[ postagem.imagem ]]"
-                         class="img-fluid" alt="Foto">
+                         class="img-fluid" alt="{% trans 'Foto' %}">
             </div>
             <div class="panel-footer">
                 <div class="row">
@@ -69,12 +70,12 @@
                                 {% endif %}
                             {% endfor %}
                         {% else %}
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> Reagir
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>{% trans 'Reagir' %}
                         {% endif %}
                     </span></a></li>
-                    <li role="presentation"><a href="#"><i class="fa fa-comment" aria-hidden="true"></i> Comentar</a>
+                    <li role="presentation"><a href="#"><i class="fa fa-comment" aria-hidden="true"></i>{% trans 'Comentar' %} </a>
                     </li>
-                    <li role="presentation"><a href="#"><i class="fa fa-share" aria-hidden="true"></i> Partilhar</a>
+                    <li role="presentation"><a href="#"><i class="fa fa-share" aria-hidden="true"></i> {% trans 'Partilhar' %}</a>
                     </li>
                 </ul>
 
@@ -82,7 +83,7 @@
             </div>
         </div>
   <div class="col-lg-12 text-center">
-        <a @click="loadPage" v-if="url" class="btn btn-default btn-sm"> Mais postagem</a>
+        <a @click="loadPage" v-if="url" class="btn btn-default btn-sm">{% trans 'Mais postagem' %} </a>
   </div>
 </div>
 <script type="text/javascript">
