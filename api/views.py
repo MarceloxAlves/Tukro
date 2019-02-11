@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, status, generics
 from rest_framework.pagination import PageNumberPagination
 
-from perfis.models import Postagem, Reaction, ReactionType, Justificativa
-from .serializer import PostagemSerializer
+from perfis.models import Postagem, Reaction, ReactionType, Justificativa, Partilhamento
+from .serializer import PostagemSerializer, PartilhamentoSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
@@ -38,6 +38,22 @@ class PostagemViewSet(viewsets.ViewSet):
         postagem = Postagem.objects.get(id=pk)
         postagem.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def compartilhar(self, request, pk=None):
+        try:
+            postagem = Postagem.objects.get(id=pk)
+            partilhamento = Partilhamento( post = postagem)
+            partilhamento.perfil =  request.user.perfil
+            partilhamento.texto =  request.data['texto']
+            partilhamento.tipo = "SHARE"
+            partilhamento.save()
+            partilhamento_serializer = PartilhamentoSerializer(partilhamento, data=request.data, partial=True)
+            if partilhamento_serializer.is_valid():
+                return Response(partilhamento_serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(data={"error": partilhamento_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            return Response(data={"error": list(str(ex))}, status=status.HTTP_400_BAD_REQUEST)
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]

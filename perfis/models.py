@@ -1,5 +1,6 @@
 from django.db import models, transaction
 from django.contrib.auth.models import User
+from itertools import chain
 
 from perfis import utils
 
@@ -60,8 +61,7 @@ class Perfil(models.Model):
         postagens = []
 
         if self.usuario.is_superuser == True:
-            postagens = Postagem.objects.all()
-
+            postagens = list(chain(Postagem.objects.filter(tipo='POST'), Partilhamento.objects.filter(tipo='SHARE')))
         else:
             for post in self.timeline.all():
                 postagens.append(post)
@@ -70,6 +70,7 @@ class Perfil(models.Model):
                     postagens.append(post)
 
         return sorted(postagens, key=Postagem.get_id, reverse=True)
+
 
     def get_public_perfil(self):
         postagens = []
@@ -117,6 +118,14 @@ class Postagem(models.Model):
     reactions = models.ManyToManyField(Perfil, through='Reaction')
     hashtags = models.ManyToManyField(Hashtag, related_name='hashtags')
     imagem = models.ImageField(upload_to='postagem', null=True)
+    tipo = models.CharField(max_length=10, default='POST')
+
+    @property
+    def post_partilhamento(self):
+        if self.tipo == 'SHARE':
+            partilha = Partilhamento.objects.get(id=self.id)
+            return partilha.post
+        return None
 
     class Meta:
         ordering = ['-data']

@@ -10,7 +10,8 @@
                             my-photo
                         {% endif %}"
                              width="40" height="40">
-                        <span style="display:inline-block; padding-top:1%;">&nbsp;&nbsp;&nbsp;[[postagem.perfil.nome]] </span>
+                        <span v-if="postagem.tipo=='SHARE'" style="display:inline-block; padding-top:1%;">&nbsp;&nbsp;&nbsp;[[postagem.perfil.nome]]  {% trans 'partilhou um post de '  %} <a>[[postagem.post_partilhamento.perfil.nome]]</a></span>
+                        <span v-if="postagem.tipo=='POST'" style="display:inline-block; padding-top:1%;">&nbsp;&nbsp;&nbsp;[[postagem.perfil.nome]] </span>
                         <br>
                         <small style="display: block" class="text-muted">&nbsp;&nbsp;&nbsp;[[ postagem.data ]]
                                 <span v-if="postagem.privacidade == 'PRIVATE'" class="fa fa-lock" title="{% trans 'Somente eu' %}"></span>
@@ -43,10 +44,16 @@
             <div v-for="hashtag in postagem.hashtags" class="panel-body" :id="'hashtag' + hashtag.id">
                 <logo style="font-size: 9pt; background: #eee; padding: 6px; border-radius: 2px;"><a href=""> [[ hashtag.label ]]</a></logo>
             </div>
-            <div class="panel-body">
+            <div class="panel-body"  v-if="postagem.tipo=='POST'">
                 [[ postagem.texto ]]
                     <img v-if="postagem.imagem  != null " style="width: 100%; max-height: 626px;" :src="[[ postagem.imagem ]]"
                          class="img-fluid" alt="{% trans 'Foto' %}">
+            </div>
+            <div class="panel-body"  v-if="postagem.tipo=='SHARE'">
+                [[ postagem.texto ]]
+                    <img v-if="postagem.post_partilhamento.imagem  != null " style="width: 100%; max-height: 626px;" :src="[[ postagem.post_partilhamento.imagem ]]"
+                         class="img-fluid" alt="{% trans 'Foto' %}">
+                    <small class="text-muted">[[postagem.post_partilhamento.texto]]</small>
             </div>
             <div class="panel-footer">
                 <div class="row">
@@ -80,10 +87,33 @@
                     </span></a></li>
                     <li role="presentation"><a href="#"><i class="fa fa-comment" aria-hidden="true"></i> {% trans 'Comentar' %} </a>
                     </li>
-                    <li role="presentation"><a href="#"><i class="fa fa-share" aria-hidden="true"></i> {% trans 'Partilhar' %}</a>
+                    <li role="presentation"><a style="cursor: pointer" @click="prePartilhar('post' + postagem.id)" ><i class="fa fa-share" aria-hidden="true"></i> {% trans 'Partilhar' %}</a>
                     </li>
                 </ul>
 
+                <div class="modal hide" :id="'post' + postagem.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{% trans 'Partilhar Postagem' %}</h5>
+                        <button type="button"  @click="closeModal('post' + postagem.id)" class="close" data-dismiss="modal" aria-label="Fechar">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                       <div class="panel-body">
+                                <input type="text" :id="'text-post' + postagem.id" class="form-control" placeholder="{% trans 'Descreva aqui' %}" >
+                                <img v-if="postagem.imagem  != null "  style="width: auto; margin-top: 5px; max-height: 200px;" :src="[[ postagem.imagem ]]"
+                                     class="img-fluid" alt="{% trans 'Foto' %}">
+                                <p><small class="text-muted">[[postagem.texto]]</small></p>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" @click="partilhar(postagem.id)" class="btn btn-primary">{% trans 'Partilhar' %}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
             </div>
         </div>
@@ -92,6 +122,7 @@
   </div>
 </div>
 <script type="text/javascript">
+    var csrftoken = Cookies.get('csrftoken');
     var appPostagem = new Vue({
             el: '#app-postagens',
             delimiters: ['[[', ']]'],
@@ -119,6 +150,18 @@
                         })
                     }
                 },
+                reload(){
+                        axios.get('/v1/postagens/')
+                        .then(response => {
+                            let data = response.data
+                            console.log(data.results);
+                            this.postagens = []
+                            this.url = data.next
+                            this.postagens = this.postagens.concat(data.results)
+                        }, (error) => {
+
+                        })
+                },
                 deletePost(id){
                    var r = confirm("Deseja realmente deletar esta postagem");
                     if (r == true) {
@@ -126,6 +169,24 @@
                     } else {
 
                     }
+                },
+                prePartilhar(id){
+                    $('#'+id).removeClass('fade')
+                    $('#'+id).addClass('show')
+                },
+                 closeModal(id){
+                    $('#'+id).removeClass('show')
+                    $('#'+id).addClass('hide')
+                },
+                partilhar(id){
+                        var headers =  {'X-CSRFToken': csrftoken}
+                        axios.patch('/v1/postagens/' + id + '/compartilhar', {"texto": $('#text-post'+id).val()}, {headers: headers })
+                        .then(response => {
+                            appPostagem.closeModal("post"+id)
+                            this.reload()
+                        }, (error) => {
+
+                        })
                 }
 
             }
