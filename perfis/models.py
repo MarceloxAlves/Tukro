@@ -1,6 +1,8 @@
 from django.db import models, transaction
 from django.contrib.auth.models import User
 
+from perfis import utils
+
 
 class Perfil(models.Model):
     nome = models.CharField(max_length=255, null=False)
@@ -97,6 +99,10 @@ class Convite(models.Model):
         self.delete()
 
 
+class Hashtag(models.Model):
+    label = models.CharField(max_length=255)
+
+
 class Postagem(models.Model):
     PRIVACIDADES = (
         ('PUBLIC', 'Público'),
@@ -109,6 +115,7 @@ class Postagem(models.Model):
     perfil = models.ForeignKey(Perfil, related_name='timeline', on_delete=models.CASCADE)
     privacidade = models.CharField(max_length=10, default='PUBLIC', choices=PRIVACIDADES)
     reactions = models.ManyToManyField(Perfil, through='Reaction')
+    hashtags = models.ManyToManyField(Hashtag, related_name='hashtags')
     imagem = models.ImageField(upload_to='postagem', null=True)
 
     class Meta:
@@ -120,14 +127,19 @@ class Postagem(models.Model):
     def __str__(self):
         return self.texto
 
+    def save(self):
+        super(Postagem, self).save()
+        hashs = utils.busca_palavra("#", self.texto)
+        for hash in hashs:
+            hashtag = Hashtag.objects.create(label=hash)
+            self.hashtags.add(hashtag)
+        return super(Postagem, self).save()
 
     def get_reaction_type(self):
         return  ReactionType.objects.all()
 
     def get_reacoes(self):
         return  Reaction.objects.filter(postagem=self)
-
-
 
 
 class ReactionType(models.Model):
@@ -145,6 +157,7 @@ class Reaction(models.Model):
 
 class Partilhamento(Postagem):
      post =  models.ForeignKey(Postagem, on_delete=models.CASCADE, related_name='partilhamentos')
+
 
 class Justificativa(models.Model):
     texto = models.CharField(max_length=200);

@@ -10,8 +10,9 @@
                             my-photo
                         {% endif %}"
                              width="40" height="40">
-                        <span style="display:inline-block; padding-top:1%;">&nbsp;[[postagem.perfil.nome]] </span>
-                        <small style="display: block" class="text-muted">[[ postagem.data ]]
+                        <span style="display:inline-block; padding-top:1%;">&nbsp;&nbsp;&nbsp;[[postagem.perfil.nome]] </span>
+                        <br>
+                        <small style="display: block" class="text-muted">&nbsp;&nbsp;&nbsp;[[ postagem.data ]]
                                 <span v-if="postagem.privacidade == 'PRIVATE'" class="fa fa-lock" title="{% trans 'Somente eu' %}"></span>
                                 <span v-if="postagem.privacidade == 'FRIENDS'"class="fa fa-group" title="{% trans 'Amigos' %}"></span>
                                 <span v-if="postagem.privacidade == 'PUBLIC'" class="fa fa-globe" title="{% trans 'Público' %}"></span>
@@ -70,10 +71,10 @@
                                 {% endif %}
                             {% endfor %}
                         {% else %}
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>{% trans 'Reagir' %}
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> {% trans 'Reagir' %}
                         {% endif %}
                     </span></a></li>
-                    <li role="presentation"><a href="#"><i class="fa fa-comment" aria-hidden="true"></i>{% trans 'Comentar' %} </a>
+                    <li role="presentation"><a href="#"><i class="fa fa-comment" aria-hidden="true"></i> {% trans 'Comentar' %} </a>
                     </li>
                     <li role="presentation"><a href="#"><i class="fa fa-share" aria-hidden="true"></i> {% trans 'Partilhar' %}</a>
                     </li>
