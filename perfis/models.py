@@ -133,7 +133,7 @@ class Postagem(models.Model):
         for hash in hashs:
             hashtag = Hashtag.objects.create(label=hash)
             self.hashtags.add(hashtag)
-        return super(Postagem, self).save()
+        super(Postagem, self).save()
 
     def get_reaction_type(self):
         return  ReactionType.objects.all()
