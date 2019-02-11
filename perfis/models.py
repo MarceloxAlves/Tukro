@@ -127,6 +127,9 @@ class Postagem(models.Model):
     def __str__(self):
         return self.texto
 
+    def qtd_hashtags(self):
+        return len(self.hashtags.all())
+
     def save(self):
         super(Postagem, self).save()
         hashs = utils.busca_palavra("#", self.texto)

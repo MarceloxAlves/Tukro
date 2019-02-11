@@ -30,41 +30,33 @@
                     </div>
                 </div>
             </div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
-                            <a href="#"
-                               style="display:inline-block; padding: 2%;">
-                                #Reveillon2019
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <img src="{% static 'img/icon_group.png' %}" class="img-circle" width="30">
-                            <a href="#"
-                               style="display:inline-block; padding: 2%;">
-                                Os Mutantes !
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
-                            <a href="#"
-                               style="display:inline-block; padding: 2%;">
-                                #AbreuFolia
-                            </a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+            {% if hashtags.count > 0 %}
+                <ul class="list-group">
+                    {% for hashtag in hashtags %}
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img src="{% static 'img/hashtag.png' %}" class="img-circle" width="30">
+                                    <span style="display:inline-block; padding: 2%;">
+                                        <logo style="font-size: 11pt;"><a href="#"> {{ hashtag.label }} </a> </logo>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <!--<li class="list-group-item">-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-12">-->
+                                    <!--<img src="{% static 'img/icon_group.png' %}" class="img-circle" width="30">-->
+                                    <!--<a href="#"-->
+                                       <!--style="display:inline-block; padding: 2%;">-->
+                                        <!--Os Mutantes !-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
 
     </div>

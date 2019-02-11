@@ -17,6 +17,7 @@ class HomeView(View):
         contexto = {
             'perfis': self.get_perfis(request),
             'postagens': request.user.perfil.get_postagens(),
+            'hashtags': self.get_hashtags(),
             'privacidades': Postagem.PRIVACIDADES,
         }
         if request.user.is_superuser == True:
@@ -32,6 +33,9 @@ class HomeView(View):
         postagem = Postagem(texto=texto, perfil=usuario.perfil, privacidade=privacidade, imagem=imagem)
         postagem.save()
         return redirect('index')
+
+    def get_hashtags(self):
+        return Hashtag.objects.all()
 
     def get_perfis(self, request):
         return Perfil.objects.all().exclude(usuario=get_perfil_logado(request))

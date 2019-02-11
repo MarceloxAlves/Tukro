@@ -23,11 +23,11 @@ class PerfilSerializer(serializers.ModelSerializer):
 class PostagemSerializer(serializers.ModelSerializer):
     perfil = PerfilSerializer(read_only=True)
     hashtags = HashtagSerializer(many=True, read_only=True)
-    data = serializers.DateTimeField(format="%d-%m-%Y %H:%M")
+    data = serializers.DateTimeField(format="%d de %B de %Y às %H:%M")
 
     class Meta:
         model = Postagem
-        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags',)
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags', 'qtd_hashtags', )
 
 
 class JustificativaSerializer(serializers.ModelSerializer):

@@ -40,9 +40,12 @@
                 </div>
             </div>
 
-            <div v-for="hashtag in postagem.hashtags" class="panel-body" :id="'hashtag' + hashtag.id">
-                <logo style="font-size: 9pt; background: #eee; padding: 6px; border-radius: 2px;"><a href=""> [[ hashtag.label ]]</a></logo>
+            <div v-if="postagem.qtd_hashtags > 0" class="panel-body">
+                <span v-for="hashtag in postagem.hashtags" :id="'hashtag' + hashtag.id">
+                    <logo style="font-size: 9pt; background: #eee; margin: 2px; padding: 6px; border-radius: 2px;"><a href=""> [[ hashtag.label ]]</a></logo>
+                </span>
             </div>
+
             <div class="panel-body">
                 [[ postagem.texto ]]
                     <img v-if="postagem.imagem  != null " style="width: 100%; max-height: 626px;" :src="[[ postagem.imagem ]]"
