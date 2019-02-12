@@ -28,6 +28,7 @@ function DeletePostagem(id_postagem) {
 }
 
 function reaction(postagem_id, r) {
+    alert(postagem_id)
     var url = API_BASE + 'postagens/' + postagem_id + '/reagir/'+r;
     $.ajax({
         type: 'GET',

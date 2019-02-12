@@ -3,7 +3,7 @@ from rest_framework import viewsets, status, generics
 from rest_framework.pagination import PageNumberPagination
 
 from perfis.models import Postagem, Reaction, ReactionType, Justificativa, Partilhamento
-from .serializer import PostagemSerializer, PartilhamentoSerializer
+from .serializer import PostagemSerializer, PartilhamentoSerializer, ReactionTypeSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
@@ -25,6 +25,21 @@ class PostagemRecordsView(generics.ListAPIView):
         authentication_classes = [SessionAuthentication]
         return [auth() for auth in authentication_classes]
 
+
+class ReactionTypeRecordsView(generics.ListAPIView):
+
+    serializer_class = ReactionTypeSerializer
+    def get_queryset(self):
+        return  ReactionType.objects.all()
+
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def get_authenticators(self):
+        authentication_classes = [SessionAuthentication]
+        return [auth() for auth in authentication_classes]
 
 
 class PostagemViewSet(viewsets.ViewSet):

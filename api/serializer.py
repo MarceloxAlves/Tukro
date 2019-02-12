@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from perfis.models import Postagem, Justificativa, Perfil, Hashtag, Partilhamento
+from perfis.models import Postagem, Justificativa, Perfil, Hashtag, Partilhamento, Reaction, ReactionType
 
 
 class HashtagSerializer(serializers.ModelSerializer):
@@ -12,6 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id','email','is_superuser')
+
+class ReactionTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = ReactionType
+        fields = '__all__'
 
 
 class PerfilSerializer(serializers.ModelSerializer):
@@ -27,7 +32,7 @@ class PostagemPartilhamentoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Postagem
-        fields = ('id','data','texto','perfil', 'privacidade', 'imagem','tipo')
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem','tipo','total_reactions')
 
 class PostagemSerializer(serializers.ModelSerializer):
     perfil = PerfilSerializer(read_only=True)
@@ -37,7 +42,7 @@ class PostagemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Postagem
-        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags', 'qtd_hashtags', 'tipo', 'post_partilhamento')
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags', 'qtd_hashtags', 'tipo', 'post_partilhamento', 'total_reactions')
 
 class PartilhamentoSerializer(serializers.ModelSerializer):
     perfil = PerfilSerializer(read_only=True)
@@ -47,7 +52,7 @@ class PartilhamentoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Partilhamento
-        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags', 'post','tipo')
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags', 'post','tipo', 'total_reactions')
 
 
 class JustificativaSerializer(serializers.ModelSerializer):

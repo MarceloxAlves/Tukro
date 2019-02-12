@@ -127,6 +127,10 @@ class Postagem(models.Model):
             return partilha.post
         return None
 
+    @property
+    def total_reactions(self):
+        return  len(self.reaction_set.all())
+
     class Meta:
         ordering = ['-data']
 

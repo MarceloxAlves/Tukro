@@ -66,33 +66,14 @@
         <div class="panel-footer">
             <div class="row">
                 <div class="col-lg-10">
-                    <span class="badge" id="postagem[[ postagem.id ]]reaction">0</span>
+                        <span class="badge" :id="'postagem' +  postagem.id + 'reaction'">[[postagem.total_reactions]]</span>
                 </div>
             </div>
-            <ul class="nav nav-pills nav-justified">
-                <li style="min-width: 2%; max-width: 2%" role="presentation"><a data-toggle="popover"
-                                                                                role="button" tabindex="0"
-                                                                                data-placement="top"
-                                                                                data-trigger="focus"
-                                                                                data-content='
-                       <div class="emojis">
-                       {% for reaction_type in postagem.get_reaction_type %}
-                           <i  style=" color:{{ reaction_type.color }}" onclick="reaction({{ postagem.id }}, {{ reaction_type.id }})" class="emoji animated infinite  slow {{ reaction_type.animation }} {{ reaction_type.icon }}"></i>
-                       {% endfor %}
 
-                       </div>
-                        '><span id="container[[ postagem.id ]]reaction">
-                        {% if user.perfil in postagem.reactions.all %}
-                            {% for reaction in postagem.get_reacoes %}
-                                {% if user.perfil == reaction.perfil %}
-                                    <i style="color:{{ reaction.tipo.color }}" class="{{ reaction.tipo.icon }}"
-                                       aria-hidden="true"></i> {{ reaction.tipo.label }}
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i> {% trans 'Reagir' %}
-                        {% endif %}
-                    </span></a></li>
+            <ul class="nav nav-pills nav-justified">
+                <li style="min-width: 2%; max-width: 2%" role="presentation">
+                    <a style="cursor: pointer" @click="reagir(postagem.id, 1)"> <i class="fa fa-thumbs-up" aria-hidden="true"></i> {% trans 'Curtir' %}</a>
+                </li>
                 <li role="presentation"><a href="#"><i class="fa fa-comment" aria-hidden="true"></i> {% trans 'Comentar' %} </a>
                 </li>
                 <li role="presentation"><a style="cursor: pointer" @click="prePartilhar('post' + postagem.id)"><i
@@ -145,11 +126,13 @@
             delimiters: ['[[', ']]'],
             data: {
                 postagens: [],
+                reactions: [],
                 scroll: 0,
                 url: '/v1/postagens/',
 
             },
             created() {
+                this.getReactions()
                 this.loadPage()
             },
             methods: {
@@ -179,6 +162,28 @@
 
                         })
                 },
+                getReactions(){
+                        axios.get('/v1/reactions/')
+                        .then(response => {
+                            let data = response.data
+                            console.log(data.results);
+                            this.reactions = data.results
+                        }, (error) => {
+
+                        })
+                },
+                reagir(postagem, reaction){
+                    var url = '/v1/postagens/' + postagem + '/reagir/'+reaction;
+                        axios.get(url)
+                        .then(response => {
+                            let data = response.data
+                            $( "#postagem"+postagem+"reaction").text(data.total)
+                            $( "#container"+postagem+"reaction").html(
+                            '<i style="color:'+data.tipo.color+'" class="'+data.tipo.icon+'" aria-hidden="true"></i> '+ data.tipo.label)
+                        }, (error) => {
+
+                        })
+                },
                 deletePost(id){
                    var r = confirm("Deseja realmente deletar esta postagem");
                     if (r == true) {
@@ -191,7 +196,7 @@
                     $('#'+id).removeClass('fade')
                     $('#'+id).addClass('show')
                 },
-                 closeModal(id){
+                closeModal(id){
                     $('#'+id).removeClass('show')
                     $('#'+id).addClass('hide')
                 },
@@ -208,6 +213,7 @@
 
             }
         })
+
 
 
 </script>
