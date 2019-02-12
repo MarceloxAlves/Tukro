@@ -37,7 +37,7 @@ class PostagemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Postagem
-        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags','tipo', 'post_partilhamento')
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags', 'qtd_hashtags', 'tipo', 'post_partilhamento')
 
 class PartilhamentoSerializer(serializers.ModelSerializer):
     perfil = PerfilSerializer(read_only=True)
