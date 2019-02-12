@@ -9,6 +9,7 @@ urlpatterns = [
     path('token/', obtain_auth_token),
     path('postagens/', PostagemRecordsView.as_view(), name="postagem_list"),
     path('postagens/<int:pk>/delete', PostagemViewSet.as_view({'delete': 'destroy'}), name="postagem_delete"),
+    path('postagens/<int:pk>/compartilhar', PostagemViewSet.as_view({'patch': 'compartilhar'}), name="postagem_compartilhar"),
     path('postagens/<int:pk>/reagir/<int:reaction>', PostagemReacao.as_view({'get': 'reagir'}), name="postagem_reagir"),
     path('perfil/alterar-imagem/', PerfilViewSet.as_view({'post': 'alterar_imagem'}), name="alterar_imagem"),
     path('perfil/desativar-conta/', PerfilViewSet.as_view({'post': 'desativar_conta'}), name="desativar_conta"),

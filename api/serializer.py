@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from perfis.models import Postagem, Justificativa, Perfil, Hashtag
+from perfis.models import Postagem, Justificativa, Perfil, Hashtag, Partilhamento
 
 
 class HashtagSerializer(serializers.ModelSerializer):
@@ -20,14 +20,34 @@ class PerfilSerializer(serializers.ModelSerializer):
         model = Perfil
         fields = ('id','nome','imagem', 'usuario')
 
-class PostagemSerializer(serializers.ModelSerializer):
+
+class PostagemPartilhamentoSerializer(serializers.ModelSerializer):
     perfil = PerfilSerializer(read_only=True)
-    hashtags = HashtagSerializer(many=True, read_only=True)
-    data = serializers.DateTimeField(format="%d de %B de %Y às %H:%M")
+    data = serializers.DateTimeField(format="%d-%m-%Y %H:%M")
 
     class Meta:
         model = Postagem
-        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags', 'qtd_hashtags', )
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem','tipo')
+
+class PostagemSerializer(serializers.ModelSerializer):
+    perfil = PerfilSerializer(read_only=True)
+    hashtags = HashtagSerializer(many=True, read_only=True)
+    data = serializers.DateTimeField(format="%d-%m-%Y %H:%M")
+    post_partilhamento =  PostagemPartilhamentoSerializer(read_only=True)
+
+    class Meta:
+        model = Postagem
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags','tipo', 'post_partilhamento')
+
+class PartilhamentoSerializer(serializers.ModelSerializer):
+    perfil = PerfilSerializer(read_only=True)
+    hashtags = HashtagSerializer(many=True, read_only=True)
+    data = serializers.DateTimeField(format="%d-%m-%Y %H:%M")
+    post = PostagemSerializer(read_only=True)
+
+    class Meta:
+        model = Partilhamento
+        fields = ('id','data','texto','perfil', 'privacidade', 'imagem', 'hashtags', 'post','tipo')
 
 
 class JustificativaSerializer(serializers.ModelSerializer):
