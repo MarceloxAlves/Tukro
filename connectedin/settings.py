@@ -140,7 +140,7 @@ CORS_ORIGIN_WHITELIST  = (
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'pt-BR'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Bahia'
 
@@ -152,7 +152,7 @@ USE_TZ = True
 
 _ = lambda s: s
 LANGUAGES = (
-    ('pt', _('Português')),
+    ('pt-br', _('Português')),
     ('en', _('Inglês')),
 )
 
